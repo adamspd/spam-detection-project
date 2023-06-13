@@ -1,0 +1,4 @@
+# MANIFEST.in
+
+include spam_detector/data/*
+recursive-include spam_detector/models *.*
