@@ -1,6 +1,6 @@
-# Contributing to Django-Detector
+# Contributing to Spam-Detection
 
-We would like to thank you for considering contributing to Django-Detector! Contributions from the community are a big part of what makes open source so great. Whether you are a newcomer or an experienced developer, your contributions are greatly appreciated.
+We would like to thank you for considering contributing to Spam-Detection! Contributions from the community are a big part of what makes open source so great. Whether you are a newcomer or an experienced developer, your contributions are greatly appreciated.
 
 Please make sure to read and understand this guide before making a contribution. It will help you to get started and ensure a smooth process for submitting your contributions.
 
@@ -13,11 +13,11 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 1. Fork the repository on GitHub by clicking the "Fork" button in the top right corner.
 2. Clone the forked repository to your local machine.
     ```
-    git clone https://github.com/yourusername/django-detector.git
+    git clone https://github.com/yourusername/spam-detection.git
     ```
 3. Add the original repository as a remote so you can fetch changes.
     ```
-    git remote add upstream https://github.com/originalusername/django-detector.git
+    git remote add upstream https://github.com/adamspd/spam-detection.git
     ```
 
 ## Making a Contribution
@@ -45,7 +45,7 @@ By participating in this project, you are expected to uphold our [Code of Conduc
     ```
     git push origin your-feature-branch
     ```
-7. Create a pull request by going to the [original repository on GitHub](https://github.com/originalusername/django-detector) and clicking the "New pull request" button.
+7. Create a pull request by going to the [original repository on GitHub](https://github.com/adamspd/spam-detection) and clicking the "New pull request" button.
 
 ## Pull Request Guidelines
 
@@ -70,4 +70,4 @@ By contributing, you agree that your contributions will be licensed under the pr
 
 ## Thank you!
 
-Thank you for contributing to Django-Detector!
+Thank you for contributing to Spam-Detection!
