@@ -1,8 +1,11 @@
 # Contributing to Spam-Detection
 
-We would like to thank you for considering contributing to Spam-Detection! Contributions from the community are a big part of what makes open source so great. Whether you are a newcomer or an experienced developer, your contributions are greatly appreciated.
+We would like to thank you for considering contributing to Spam-Detection! Contributions from the community are a big
+part of what makes open source so great. Whether you are a newcomer or an experienced developer, your contributions are
+greatly appreciated.
 
-Please make sure to read and understand this guide before making a contribution. It will help you to get started and ensure a smooth process for submitting your contributions.
+Please make sure to read and understand this guide before making a contribution. It will help you to get started and
+ensure a smooth process for submitting your contributions.
 
 ## Code of Conduct
 
@@ -45,7 +48,8 @@ By participating in this project, you are expected to uphold our [Code of Conduc
     ```
     git push origin your-feature-branch
     ```
-7. Create a pull request by going to the [original repository on GitHub](https://github.com/adamspd/spam-detection) and clicking the "New pull request" button.
+7. Create a pull request by going to the [original repository on GitHub](https://github.com/adamspd/spam-detection) and
+   clicking the "New pull request" button.
 
 ## Pull Request Guidelines
 
@@ -58,11 +62,13 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 
 ## Reporting Bugs
 
-If you find a bug, please create an issue in the GitHub issue tracker describing the problem and including steps to reproduce the issue.
+If you find a bug, please create an issue in the GitHub issue tracker describing the problem and including steps to
+reproduce the issue.
 
 ## Requesting Features
 
-Feature requests are welcome. Please create an issue in the GitHub issue tracker describing the feature you would like to see, why it is useful, and how it should work.
+Feature requests are welcome. Please create an issue in the GitHub issue tracker describing the feature you would like
+to see, why it is useful, and how it should work.
 
 ## License
 

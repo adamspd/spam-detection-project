@@ -1,4 +1,15 @@
 # MANIFEST.in
 
-include spam_detector/data/*
-recursive-include spam_detector/models *.*
+include LICENSE
+include data/*
+recursive-include models/ *.pkl
+exclude *.log
+recursive-include classifier/ *.py
+recursive-include loading_and_processing/ *.py
+recursive-include prediction/ *.py
+recursive-include training/ *.py
+recursive-include test_and_tuning/ *.py
+include *.md
+include setup.py
+include logger_config.py
+include trainer.py
