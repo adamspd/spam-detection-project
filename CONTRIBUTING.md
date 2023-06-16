@@ -16,11 +16,11 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 1. Fork the repository on GitHub by clicking the "Fork" button in the top right corner.
 2. Clone the forked repository to your local machine.
     ```
-    git clone https://github.com/yourusername/spam-detection.git
+    git clone https://github.com/yourusername/spam-detection-project.git
     ```
-3. Add the original repository as a remote so you can fetch changes.
+3. Add the original repository as a remote, so you can fetch changes.
     ```
-    git remote add upstream https://github.com/adamspd/spam-detection.git
+    git remote add upstream https://github.com/adamspd/spam-detection-project.git
     ```
 
 ## Making a Contribution
@@ -48,7 +48,7 @@ By participating in this project, you are expected to uphold our [Code of Conduc
     ```
     git push origin your-feature-branch
     ```
-7. Create a pull request by going to the [original repository on GitHub](https://github.com/adamspd/spam-detection) and
+7. Create a pull request by going to the [original repository on GitHub](https://github.com/adamspd/spam-detection-project) and
    clicking the "New pull request" button.
 
 ## Pull Request Guidelines
