@@ -3,9 +3,9 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 
-from spam_detector.classifiers.classifier_types import ClassifierType
-from spam_detector.logger_config import init_logging
-from spam_detector.training import ModelTrainer
+from spam_detector_ai.classifiers.classifier_types import ClassifierType
+from spam_detector_ai.logger_config import init_logging
+from spam_detector_ai.training import ModelTrainer
 
 
 if __name__ == '__main__':

@@ -1,16 +1,16 @@
-# spam_detector/prediction/predict.py
+# spam_detector_ai/prediction/predict.py
 
 import os
 import pickle
 
-from spam_detector.classifiers.classifier_types import ClassifierType
-from spam_detector.loading_and_processing import Preprocessor
+from spam_detector_ai.classifiers.classifier_types import ClassifierType
+from spam_detector_ai.loading_and_processing import Preprocessor
 
 
 def get_model_path(model_type):
     # Determine the directory of this file
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Assuming the spam_detector directory is one level up from the current directory
+    # Assuming the spam_detector_ai directory is one level up from the current directory
     base_dir = os.path.dirname(current_dir)
 
     # Define the relative paths for each model type using a dictionary
