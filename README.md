@@ -167,7 +167,7 @@ To use the spam detector in your Django project:
 3. Use the `is_spam` method to check if a message is spam.
 
 ```python
-from prediction import VotingSpamDetector
+from spam_detector.prediction import VotingSpamDetector
 
 # Create the spam detector
 spam_detector = VotingSpamDetector()

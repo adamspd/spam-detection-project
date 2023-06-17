@@ -1,11 +1,11 @@
-# spam_detection/training/train_models.py
+# spam_detector/training/train_models.py
 
 import os
 
 from sklearn.model_selection import train_test_split
 
-from spam_detection.classifiers import RandomForestSpamClassifier, NaiveBayesClassifier, SVMClassifier, ClassifierType
-from spam_detection.loading_and_processing import DataLoader, Preprocessor
+from spam_detector.classifiers import RandomForestSpamClassifier, NaiveBayesClassifier, SVMClassifier, ClassifierType
+from spam_detector.loading_and_processing import DataLoader, Preprocessor
 
 
 class ModelTrainer:
@@ -69,7 +69,7 @@ class ModelTrainer:
     def save_model(self, model_filename, vectoriser_filename):
         # Determine the directory of this file
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        # Assuming the spam_detection directory is one level up from the current directory
+        # Assuming the spam_detector directory is one level up from the current directory
         base_dir = os.path.dirname(current_dir)
         directory_path = self.get_directory_path()
 
