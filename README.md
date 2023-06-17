@@ -180,7 +180,7 @@ print(f"Is spam: {is_spam}")
 
 ## Project Structure
 
-- `classifier/`: Contains the different classifiers (Naive Bayes, Random Forest, SVM).
+- `classifiers/`: Contains the different classifiers (Naive Bayes, Random Forest, SVM).
 - `data/`: Contains the sample dataset for training the classifiers.
 - `loading_and_processing/`: Contains utility functions for loading and preprocessing data.
 - `models/`: Contains the trained models and their vectorizers.
