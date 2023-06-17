@@ -1,4 +1,4 @@
-# spam_detector/classifiers/classifier_types.py
+# spam_detector_ai/classifiers/classifier_types.py
 
 from enum import Enum, auto
 

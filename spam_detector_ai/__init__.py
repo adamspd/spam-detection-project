@@ -1,4 +1,4 @@
-# spam_detector/__init__.py
+# spam_detector_ai/__init__.py
 
 from . import classifiers
 from . import loading_and_processing

@@ -1,4 +1,4 @@
-# spam_detector/classifiers/naive_bayes_classifier.py
+# spam_detector_ai/classifiers/naive_bayes_classifier.py
 
 import pickle
 from sklearn.feature_extraction.text import CountVectorizer

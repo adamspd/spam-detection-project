@@ -1,4 +1,4 @@
-# spam_detector/trainer.py
+# spam_detector_ai/trainer.py
 
 from sklearn.model_selection import train_test_split
 
