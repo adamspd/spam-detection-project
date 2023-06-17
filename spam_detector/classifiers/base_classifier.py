@@ -1,4 +1,4 @@
-# spam_detection/classifiers/base_classifier.py
+# spam_detector/classifiers/base_classifier.py
 
 from abc import ABC, abstractmethod
 

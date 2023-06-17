@@ -1,4 +1,4 @@
-# spam_detection/classifiers/random_forest_classifier.py
+# spam_detector/classifiers/random_forest_classifier.py
 
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
