@@ -2,13 +2,13 @@
 
 include LICENSE
 include data/*
-recursive-include models/ *.pkl
+recursive-include models/ *
 exclude *.log
-recursive-include classifier/ *.py
-recursive-include loading_and_processing/ *.py
-recursive-include prediction/ *.py
-recursive-include training/ *.py
-recursive-include test_and_tuning/ *.py
+recursive-include classifiers/ *
+recursive-include loading_and_processing/ *
+recursive-include prediction/ *
+recursive-include training/ *
+recursive-include test_and_tuning/ *
 include *.md
 include setup.py
 include logger_config.py
