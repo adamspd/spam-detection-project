@@ -1,4 +1,9 @@
 # spam_detector_ai/prediction/predict.py
+"""
+Author: Adams P. David
+Contact: https://adamspierredavid.com/contact/
+Date Written: 2023-06-12
+"""
 
 import os
 import pickle
@@ -41,6 +46,8 @@ def get_model_path(model_type):
 
 
 class SpamDetector:
+    """This class is used to detect whether a message is spam or not spam."""
+
     def __init__(self, model_type=ClassifierType.NAIVE_BAYES):
         # Determine paths based on model's type
         model_path, vectoriser_path = get_model_path(model_type)
@@ -79,6 +86,9 @@ class SpamDetector:
 
 
 class VotingSpamDetector:
+    """This class is used to detect whether a message is spam
+    or not spam using majority voting of multiple spam detectors models."""
+
     def __init__(self):
         self.detectors = [
             SpamDetector(model_type=ClassifierType.NAIVE_BAYES),
