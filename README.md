@@ -55,7 +55,7 @@ The more data you have, the better the models will perform.
 To train the models, run the following command:
 
 ```sh
-python trainer.py
+python3 spam_detector_ai/trainer.py
 ```
 
 This will train all the models and save them to the `models` directory. For now, there is 3 models:
@@ -66,9 +66,9 @@ This will train all the models and save them to the `models` directory. For now,
 
 ### Tests
 
-The tests results are shown below:
+The test results are shown below:
 
-#### <u>Model: NAIVE_BAYES</u>
+#### _Model: NAIVE_BAYES_
 
 ##### Confusion Matrix:
 
@@ -96,7 +96,7 @@ The tests results are shown below:
 
 <br>
 
-#### <u>Model: RANDOM_FOREST</u>
+#### _Model: RANDOM_FOREST_
 
 ##### Confusion Matrix:
 
@@ -124,7 +124,7 @@ The tests results are shown below:
 
 <br>
 
-#### <u>Model: SVM</u>
+#### _Model: SVM_
 
 ##### Confusion Matrix:
 
