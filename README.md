@@ -203,3 +203,43 @@ This project is licensed under the [MIT License](LICENSE).
 The project contains 3 pre-trained models that can be used directly if you want to skip the training step.
 If you don't want to use the package, you can use the API that I have deployed
 [here](https://spam-detection-api.adamspierredavid.com/).
+
+The API is built with Django and the following is an example of how I use it in a personal project:
+
+![Screenshot](./screenshots/spam-detection-api-example.png)
+
+The code: 
+
+```python
+import requests
+
+
+def check_website_contact_form(request):
+    message_ = request.POST.get('message')
+    subject = request.POST.get('subject')
+    # etc...
+
+    # Concatenate subject and message
+    message_with_subject = f'subject: {subject}. {message_}'
+
+    # Call the spam detection API
+    response = requests.post(
+        "https://spam-detection-api.adamspierredavid.com/v1/check-spam/",
+        json={'message': message_with_subject}  # Use json parameter instead of data
+    )
+    
+    is_spam = False
+    
+    # Check if the API request was successful
+    if response.status_code == 200:
+        # Parse the JSON response
+        json_response = response.json()
+        is_spam = json_response.get('is_spam')
+    
+    if is_spam:
+        # Do something
+        pass
+    else:
+        # Do something else
+        pass
+```
