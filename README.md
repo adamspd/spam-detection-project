@@ -1,5 +1,13 @@
 # Spam-Detector-AI
 
+![Tests](https://github.com/adamspd/spam-detection-project/actions/workflows/tests.yml/badge.svg)
+[![PyPI version](https://badge.fury.io/py/spam-detector-ai.svg)](https://badge.fury.io/py/spam-detector-ai)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![GitHub last commit](https://img.shields.io/github/last-commit/adamspd/spam-detection-project)](https://github.com/adamspd/spam-detection-project/commit/main)
+[![GitHub issues](https://img.shields.io/github/issues/adamspd/spam-detection-project)](https://github.com/adamspd/spam-detection-project/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/adamspd/spam-detection-project)](https://github.com/adamspd/spam-detection-project/pulls)
+[![GitHub contributors](https://img.shields.io/github/contributors/adamspd/spam-detection-project)](https://github.com/adamspd/spam-detection-project/graphs/contributors)
+
 Spam-Detector-AI is a Python package for detecting and filtering spam messages using Machine Learning models. The
 package integrates with Django or any other project that uses python and offers three different classifiers: Naive
 Bayes, Random Forest, and Support Vector Machine (SVM).
