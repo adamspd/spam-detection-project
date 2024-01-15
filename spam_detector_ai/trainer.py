@@ -18,11 +18,12 @@ def train_model(classifier_type, model_filename, vectoriser_filename, X_train, y
 
 if __name__ == '__main__':
     # Load and preprocess data once
-    initial_trainer = ModelTrainer(data_path='data/spam.csv', classifier_type=None, logger=logger)
-    processed_data = initial_trainer._preprocess_data()
+    initial_trainer = ModelTrainer(data_path='data/spam.csv', logger=logger)
+    processed_data = initial_trainer.preprocess_data_()
 
     # Split the data once
-    X__train, _, y__train, _ = train_test_split(processed_data['processed_text'], processed_data['label'], test_size=0.2, random_state=0)
+    X__train, _, y__train, _ = train_test_split(processed_data['processed_text'], processed_data['label'],
+                                                test_size=0.2, random_state=0)
 
     # Configurations for each model
     configurations = [
@@ -34,4 +35,3 @@ if __name__ == '__main__':
     # Train each model with the pre-split data
     for ct, mf, vf in configurations:
         train_model(ct, mf, vf, X__train, y__train)
-
