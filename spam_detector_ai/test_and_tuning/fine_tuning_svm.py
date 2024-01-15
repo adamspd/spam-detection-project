@@ -9,7 +9,6 @@ from spam_detector_ai.classifiers.classifier_types import ClassifierType
 from spam_detector_ai.logger_config import init_logging
 from spam_detector_ai.training import ModelTrainer
 
-
 if __name__ == '__main__':
     logger = init_logging()
 
@@ -21,10 +20,10 @@ if __name__ == '__main__':
     grid_search = GridSearchCV(SVC(), param_grid, refit=True, verbose=3, cv=5)
 
     logger.info("Loading the training data")
-    trainer = ModelTrainer(data_path='../data/spam.csv', classifier_type=ClassifierType.SVM)
+    trainer = ModelTrainer(data_path='../data/spam.csv', classifier_type=ClassifierType.SVM, logger=logger)
 
     logger.info("Splitting the data")
-    X_train, X_test, y_train, y_test = trainer._split_data()
+    X_train, X_test, y_train, y_test = trainer.split_data_()
 
     logger.info("Vectorise the data")
     vectoriser = TfidfVectorizer(max_features=1500, min_df=5, max_df=0.7)
