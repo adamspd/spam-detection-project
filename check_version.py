@@ -21,4 +21,5 @@ def check_package_version(package_name, current_version):
     print(f"::set-output name=version_exists::{version_exists}")
 
 
-check_package_version(__package_name__, __version__)
+if __name__ == "__main__":
+    check_package_version(__package_name__, __version__)

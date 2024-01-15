@@ -18,9 +18,9 @@ class ModelTrainer:
         self.logger = logger
         self.logger.info(f'ModelTrainer initialized with classifier type: {classifier_type}')
         if classifier_type is not None:
-            self.classifier = self._get_classifier(classifier_type)
+            self.classifier = self.get_classifier_(classifier_type)
 
-    def _preprocess_data(self):
+    def preprocess_data_(self):
         self.logger.info('Preprocessing data')
         if self.data is None:
             self.logger.info(f'Loading data from {self.data_path}')
@@ -28,14 +28,14 @@ class ModelTrainer:
         self.processed_data = Preprocessor().preprocess(self.data)
         return self.processed_data
 
-    def _split_data(self):
+    def split_data_(self):
         self.logger.info('Splitting data')
         if self.processed_data is None:
-            self.processed_data = self._preprocess_data()
+            self.processed_data = self.preprocess_data_()
         return train_test_split(self.processed_data['processed_text'], self.processed_data['label'],
                                 test_size=self.test_size, random_state=0)
 
-    def _get_classifier(self, classifier_type):
+    def get_classifier_(self, classifier_type):
         classifier_map = {
             ClassifierType.NAIVE_BAYES.value: NaiveBayesClassifier(),
             ClassifierType.RANDOM_FOREST.value: RandomForestSpamClassifier(),
