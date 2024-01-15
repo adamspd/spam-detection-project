@@ -1,0 +1,27 @@
+documentation:
+- "**/*.md"
+- LICENSE
+- "docs/**/*"
+- "screenshots/**/*"
+
+dependencies:
+- requirements.txt
+
+enhancement:
+- "**"
+
+github-actions:
+- ".github/**/*"
+
+tests:
+- "spam_detector_ai/test_and_tuning/**/*"
+
+models:
+- "spam_detector_ai/models/**/*"
+
+training:
+- "spam_detector_ai/training/**/*"
+- "spam_detector_ai/data/**/*"
+- "spam_detector_ai/classifiers/**/*"
+- "spam_detector_ai/prediction/**/*"
+- "spam_detector_ai/loading_and_processing/**/*"
