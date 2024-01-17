@@ -17,7 +17,7 @@ def test_model():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     base_dir = os.path.dirname(current_dir)
     data_path = os.path.join(base_dir, 'data/spam.csv')
-    initial_trainer = ModelTrainer(data_path=data_path, classifier_type=None, logger=logger)
+    initial_trainer = ModelTrainer(data_path=data_path, logger=logger)
     processed_data = initial_trainer.preprocess_data_()
     _, X_test, _, y_test = train_test_split(processed_data['processed_text'], processed_data['label'],
                                             test_size=0.2, random_state=0)
