@@ -1,8 +1,10 @@
 # spam_detector_ai/classifiers/naive_bayes_classifier.py
 
 import pickle
+
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
+
 from .base_classifier import BaseClassifier
 
 
