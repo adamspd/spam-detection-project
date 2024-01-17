@@ -38,6 +38,7 @@ Make sure you have the following dependencies installed:
 - nltk
 - pandas
 - numpy
+- joblib
 
 Additionally, you'll need to download the NLTK data and to do so, use the python interpreter to run the following
 commands:
@@ -66,7 +67,7 @@ To train the models, run the following command:
 python3 spam_detector_ai/trainer.py
 ```
 
-This will train all the models and save them to the `models` directory. For now, there is 3 models:
+This will train all the models and save them as `.joblib` files in the models directory. For now, there is 3 models:
 
 - `naive_bayes.pkl`
 - `random_forest.pkl`

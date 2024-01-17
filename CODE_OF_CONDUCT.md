@@ -93,4 +93,3 @@ members.
 This Code of Conduct is distributed under a Creative Commons Attribution-ShareAlike license.
 
 Portions of a text derived from the Django Code of Conduct and the Geek Feminism Anti-Harassment Policy.
-
