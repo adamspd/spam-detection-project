@@ -139,12 +139,12 @@ The test results are shown below:
 |                  | Predicted: Ham       | Predicted: Spam     |
 |------------------|----------------------|---------------------|
 | **Actual: Ham**  | 2080 (True Negative) | 25 (False Positive) |
-| **Actual: Spam** | 42 (False Negative)  | 812 (True Positive) |
+| **Actual: Spam** | 41 (False Negative)  | 813 (True Positive) |
 
 - True Negative (TN): 2080 messages were correctly identified as ham (non-spam).
 - False Positive (FP): 25 ham messages were incorrectly identified as spam.
-- False Negative (FN): 42 spam messages were incorrectly identified as ham.
-- True Positive (TP): 812 messages were correctly identified as spam.
+- False Negative (FN): 41 spam messages were incorrectly identified as ham.
+- True Positive (TP): 813 messages were correctly identified as spam.
 
 ##### Performance Metrics:
 
@@ -212,7 +212,7 @@ The project contains 3 pre-trained models that can be used directly if you want 
 If you don't want to use the package, you can use the API that I have deployed
 [here](https://spam-detection-api.adamspierredavid.com/).
 
-The API is built with Django and the following is an example of how I use it in a personal project:
+The API is built with Django, and the following is an example of how I use it in a personal project:
 
 ![Screenshot](./screenshots/spam-detection-api-example.png)
 
