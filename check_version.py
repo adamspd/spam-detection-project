@@ -1,5 +1,5 @@
 import requests
-from spam_detector_ai import __version__, __package_name__, __test_version__
+from spam_detector_ai.__info__ import __version__, __package_name__, __test_version__
 
 
 def check_package_version(package_name, current_version):
