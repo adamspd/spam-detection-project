@@ -55,8 +55,6 @@ class SpamDetector:
             ClassifierType.SVM.value: SVMClassifier()
         }
         classifier = classifier_map.get(model_type.value)
-        print(f"classifier_class: {classifier}")
-        print(f"model_type: {model_type}")
         if not classifier:
             raise ValueError(f"Invalid model type: {model_type}")
 
