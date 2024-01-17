@@ -2,7 +2,7 @@
 
 import os
 
-from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
 
 from spam_detector_ai.classifiers.classifier_types import ClassifierType
