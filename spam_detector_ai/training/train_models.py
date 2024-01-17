@@ -4,12 +4,13 @@ import os
 
 from sklearn.model_selection import train_test_split
 
-from spam_detector_ai.classifiers import RandomForestSpamClassifier, NaiveBayesClassifier, SVMClassifier, ClassifierType
+from spam_detector_ai.classifiers import ClassifierType, NaiveBayesClassifier, RandomForestSpamClassifier, SVMClassifier
 from spam_detector_ai.loading_and_processing import DataLoader, Preprocessor
 
 
 class ModelTrainer:
-    def __init__(self, data_path=None, data=None, classifier_type=None, test_size=0.2, logger=None):
+    def __init__(self, data_path=None, data=None, classifier_type=ClassifierType.NAIVE_BAYES, test_size=0.2,
+                 logger=None):
         self.data_path = data_path
         self.classifier_type = classifier_type
         self.test_size = test_size
@@ -17,8 +18,7 @@ class ModelTrainer:
         self.processed_data = None
         self.logger = logger
         self.logger.info(f'ModelTrainer initialized with classifier type: {classifier_type}')
-        if classifier_type is not None:
-            self.classifier = self.get_classifier_(classifier_type)
+        self.classifier = self.get_classifier_(classifier_type)
 
     def preprocess_data_(self):
         self.logger.info('Preprocessing data')

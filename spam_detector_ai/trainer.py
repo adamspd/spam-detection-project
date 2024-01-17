@@ -27,11 +27,12 @@ if __name__ == '__main__':
 
     # Configurations for each model
     configurations = [
-        (ClassifierType.SVM, 'svm_model.pkl', 'svm_vectoriser.pkl'),
-        (ClassifierType.NAIVE_BAYES, 'naive_bayes_model.pkl', 'naive_bayes_vectoriser.pkl'),
-        (ClassifierType.RANDOM_FOREST, 'random_forest_model.pkl', 'random_forest_vectoriser.pkl')
+        (ClassifierType.SVM, 'svm_model.joblib', 'svm_vectoriser.joblib'),
+        (ClassifierType.NAIVE_BAYES, 'naive_bayes_model.joblib', 'naive_bayes_vectoriser.joblib'),
+        (ClassifierType.RANDOM_FOREST, 'random_forest_model.joblib', 'random_forest_vectoriser.joblib')
     ]
 
     # Train each model with the pre-split data
+    logger.info(f"Train each model with the pre-split data")
     for ct, mf, vf in configurations:
         train_model(ct, mf, vf, X__train, y__train)

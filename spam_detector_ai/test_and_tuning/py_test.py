@@ -1,7 +1,9 @@
 import os
+
 import pytest
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
+
 from spam_detector_ai.classifiers.classifier_types import ClassifierType
 from spam_detector_ai.logger_config import init_logging
 from spam_detector_ai.prediction import SpamDetector

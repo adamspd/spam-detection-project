@@ -6,8 +6,8 @@ Date Written: 2023-06-12
 """
 
 import os
-import pickle
 
+from spam_detector_ai.classifiers.classifier_map import CLASSIFIER_MAP
 from spam_detector_ai.classifiers.classifier_types import ClassifierType
 from spam_detector_ai.loading_and_processing import Preprocessor
 
@@ -21,16 +21,16 @@ def get_model_path(model_type):
     # Define the relative paths for each model type using a dictionary
     paths_map = {
         ClassifierType.NAIVE_BAYES: (
-            'models/bayes/naive_bayes_model.pkl',
-            'models/bayes/naive_bayes_vectoriser.pkl'
+            'models/bayes/naive_bayes_model.joblib',
+            'models/bayes/naive_bayes_vectoriser.joblib'
         ),
         ClassifierType.RANDOM_FOREST: (
-            'models/random_forest/random_forest_model.pkl',
-            'models/random_forest/random_forest_vectoriser.pkl'
+            'models/random_forest/random_forest_model.joblib',
+            'models/random_forest/random_forest_vectoriser.joblib'
         ),
         ClassifierType.SVM: (
-            'models/svm/svm_model.pkl',
-            'models/svm/svm_vectoriser.pkl'
+            'models/svm/svm_model.joblib',
+            'models/svm/svm_vectoriser.joblib'
         )
     }
 
@@ -49,14 +49,13 @@ class SpamDetector:
     """This class is used to detect whether a message is spam or not spam."""
 
     def __init__(self, model_type=ClassifierType.NAIVE_BAYES):
-        # Determine paths based on model's type
+        classifier_class = CLASSIFIER_MAP.get(model_type)
+        if not classifier_class:
+            raise ValueError(f"Invalid model type: {model_type}")
+
+        self.model = classifier_class()
         model_path, vectoriser_path = get_model_path(model_type)
-
-        # Load the saved classifier and vectoriser
-        with open(model_path, 'rb') as model_file, open(vectoriser_path, 'rb') as vectoriser_file:
-            self.model = pickle.load(model_file)
-            self.vectoriser = pickle.load(vectoriser_file)
-
+        self.model.load_model(model_path, vectoriser_path)
         self.processor = Preprocessor()
 
     def is_spam(self, message_):
@@ -64,10 +63,10 @@ class SpamDetector:
         processed_message = self.processor.preprocess_text(message_)
 
         # Vectorize the preprocessed message
-        vectorized_message = self.vectoriser.transform([processed_message]).toarray()
+        vectorized_message = self.model.vectoriser.transform([processed_message]).toarray()
 
         # Make prediction
-        prediction = self.model.predict(vectorized_message)
+        prediction = self.model.classifier.predict(vectorized_message)
 
         # Return True if spam, False if not spam
         return prediction[0] == 'spam'
@@ -76,10 +75,10 @@ class SpamDetector:
         processed_message = self.processor.preprocess_text(message_)
 
         # Vectorize the preprocessed message
-        vectorized_message = self.vectoriser.transform([processed_message]).toarray()
+        vectorized_message = self.model.vectoriser.transform([processed_message]).toarray()
 
         # Make prediction
-        prediction = self.model.predict(vectorized_message)
+        prediction = self.model.classifier.predict(vectorized_message)
 
         # Return True if spam, False if not spam
         return prediction[0]
