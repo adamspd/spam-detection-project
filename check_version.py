@@ -1,3 +1,5 @@
+import os
+
 import requests
 from spam_detector_ai.__info__ import __version__, __package_name__, __test_version__
 
@@ -17,8 +19,10 @@ def check_package_version(package_name, current_version):
                 print(f"Version {current_version} already exists on PyPI!")
                 version_exists = True
 
-    # Output for GitHub Actions
-    print(f"::set-output name=version_exists::{version_exists}")
+    # Output for GitHub Actions using environment files
+    if "GITHUB_OUTPUT" in os.environ:
+        with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+            f.write(f"version_exists={version_exists}\n")
 
 
 if __name__ == "__main__":
