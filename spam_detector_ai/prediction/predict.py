@@ -8,7 +8,6 @@ Date Written: 2023-06-12
 import os
 
 from spam_detector_ai.classifiers import NaiveBayesClassifier, RandomForestSpamClassifier, SVMClassifier
-from spam_detector_ai.classifiers.classifier_map import CLASSIFIER_MAP
 from spam_detector_ai.classifiers.classifier_types import ClassifierType
 from spam_detector_ai.loading_and_processing import Preprocessor
 
