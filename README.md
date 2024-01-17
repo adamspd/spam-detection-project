@@ -12,6 +12,8 @@ Spam-Detector-AI is a Python package for detecting and filtering spam messages u
 package integrates with Django or any other project that uses python and offers three different classifiers: Naive
 Bayes, Random Forest, and Support Vector Machine (SVM).
 
+:warning: **Warning**: No significant breaking changes were added to the version 2.x.x in terms of usage. :warning:
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -217,7 +219,7 @@ The API is built with Django, and the following is an example of how I use it in
 
 ![Screenshot](./screenshots/spam-detection-api-example.png)
 
-The code: 
+The code:
 
 ```python
 import requests
@@ -236,15 +238,15 @@ def check_website_contact_form(request):
         "https://spam-detection-api.adamspierredavid.com/v1/check-spam/",
         json={'message': message_with_subject}  # Use json parameter instead of data
     )
-    
+
     is_spam = False
-    
+
     # Check if the API request was successful
     if response.status_code == 200:
         # Parse the JSON response
         json_response = response.json()
         is_spam = json_response.get('is_spam')
-    
+
     if is_spam:
         # Do something
         pass
