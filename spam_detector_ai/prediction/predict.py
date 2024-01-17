@@ -7,6 +7,7 @@ Date Written: 2023-06-12
 
 import os
 
+from spam_detector_ai.classifiers import NaiveBayesClassifier, RandomForestSpamClassifier, SVMClassifier
 from spam_detector_ai.classifiers.classifier_map import CLASSIFIER_MAP
 from spam_detector_ai.classifiers.classifier_types import ClassifierType
 from spam_detector_ai.loading_and_processing import Preprocessor
@@ -49,11 +50,18 @@ class SpamDetector:
     """This class is used to detect whether a message is spam or not spam."""
 
     def __init__(self, model_type=ClassifierType.NAIVE_BAYES):
-        classifier_class = CLASSIFIER_MAP.get(model_type)
-        if not classifier_class:
+        classifier_map = {
+            ClassifierType.NAIVE_BAYES.value: NaiveBayesClassifier(),
+            ClassifierType.RANDOM_FOREST.value: RandomForestSpamClassifier(),
+            ClassifierType.SVM.value: SVMClassifier()
+        }
+        classifier = classifier_map.get(model_type.value)
+        print(f"classifier_class: {classifier}")
+        print(f"model_type: {model_type}")
+        if not classifier:
             raise ValueError(f"Invalid model type: {model_type}")
 
-        self.model = classifier_class()
+        self.model = classifier
         model_path, vectoriser_path = get_model_path(model_type)
         self.model.load_model(model_path, vectoriser_path)
         self.processor = Preprocessor()
