@@ -217,7 +217,7 @@ If you don't want to use the package, you can use the API that I have deployed
 
 The API is built with Django, and the following is an example of how I use it in a personal project:
 
-![Screenshot](./screenshots/spam-detection-api-example.png)
+![Usage of the API](https://github.com/adamspd/spam-detection-project/blob/main/screenshots/spam-detection-api-example.png?raw=true)
 
 The code:
 
