@@ -69,6 +69,9 @@ To train the models, run the following command:
 python3 spam_detector_ai/trainer.py
 ```
 
+:warning: **Warning**: A module not found error may occur :warning:
+If this happens, use an IDE to run the `trainer.py`file until a fix is implemented.
+
 This will train all the models and save them as `.joblib` files in the models directory. For now, there is 3 models:
 
 - `naive_bayes.pkl`
@@ -171,6 +174,10 @@ If you have trained the models on new data, you can test them by running the fol
 python test_and_tuning/test.py
 ```
 
+:warning: **Warning**: A module not found error may occur :warning:
+If this happens, use an IDE to run the `test.py`file until a fix is implemented.
+
+
 ### Making Predictions
 
 To use the spam detector in your Django project:
@@ -180,7 +187,7 @@ To use the spam detector in your Django project:
 3. Use the `is_spam` method to check if a message is spam.
 
 ```python
-from spam_detector_ai.prediction import VotingSpamDetector
+from spam_detector_ai.prediction.predict import VotingSpamDetector
 
 # Create the spam detector
 spam_detector = VotingSpamDetector()
@@ -236,7 +243,8 @@ def check_website_contact_form(request):
     # Call the spam detection API
     response = requests.post(
         "https://spam-detection-api.adamspierredavid.com/v1/check-spam/",
-        json={'message': message_with_subject}  # Use json parameter instead of data
+        json={'text': message_with_subject}  # Use json parameter instead of data
+        # You can also do `json={'message': message_with_subject}
     )
 
     is_spam = False
