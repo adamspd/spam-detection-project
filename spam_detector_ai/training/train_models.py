@@ -4,8 +4,12 @@ import os
 
 from sklearn.model_selection import train_test_split
 
-from spam_detector_ai.classifiers import ClassifierType, NaiveBayesClassifier, RandomForestSpamClassifier, SVMClassifier
-from spam_detector_ai.loading_and_processing import DataLoader, Preprocessor
+from spam_detector_ai.classifiers.classifier_types import ClassifierType
+from spam_detector_ai.classifiers.naive_bayes_classifier import NaiveBayesClassifier
+from spam_detector_ai.classifiers.random_forest_classifier import RandomForestSpamClassifier
+from spam_detector_ai.classifiers.svm_classifier import SVMClassifier
+from spam_detector_ai.loading_and_processing.data_loader import DataLoader
+from spam_detector_ai.loading_and_processing.preprocessor import Preprocessor
 
 
 class ModelTrainer:

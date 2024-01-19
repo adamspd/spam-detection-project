@@ -3,7 +3,7 @@
 
 import setuptools
 
-from spam_detector_ai.__info__ import (
+from spam_detector_ai import (
     __author__, __author_email__, __author_website__, __description__, __package_name__, __url__, __version__)
 
 with open("README.md", "r", encoding="utf-8") as fh:

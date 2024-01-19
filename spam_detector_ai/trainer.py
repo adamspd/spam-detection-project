@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 
 from classifiers.classifier_types import ClassifierType
 from logger_config import init_logging
-from training import ModelTrainer
+from training.train_models import ModelTrainer
 
 logger = init_logging()
 
