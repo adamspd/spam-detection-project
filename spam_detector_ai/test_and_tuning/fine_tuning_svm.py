@@ -7,7 +7,7 @@ from sklearn.svm import SVC
 
 from spam_detector_ai.classifiers.classifier_types import ClassifierType
 from spam_detector_ai.logger_config import init_logging
-from spam_detector_ai.training import ModelTrainer
+from spam_detector_ai.training.train_models import ModelTrainer
 
 if __name__ == '__main__':
     logger = init_logging()

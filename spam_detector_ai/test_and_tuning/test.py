@@ -7,8 +7,8 @@ from sklearn.model_selection import train_test_split
 
 from spam_detector_ai.classifiers.classifier_types import ClassifierType
 from spam_detector_ai.logger_config import init_logging
-from spam_detector_ai.prediction import SpamDetector
-from spam_detector_ai.training import ModelTrainer
+from spam_detector_ai.prediction.predict import SpamDetector
+from spam_detector_ai.training.train_models import ModelTrainer
 
 
 class TestModel:

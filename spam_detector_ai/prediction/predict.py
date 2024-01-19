@@ -7,9 +7,11 @@ Date Written: 2023-06-12
 
 import os
 
-from spam_detector_ai.classifiers import NaiveBayesClassifier, RandomForestSpamClassifier, SVMClassifier
 from spam_detector_ai.classifiers.classifier_types import ClassifierType
-from spam_detector_ai.loading_and_processing import Preprocessor
+from spam_detector_ai.classifiers.naive_bayes_classifier import NaiveBayesClassifier
+from spam_detector_ai.classifiers.random_forest_classifier import RandomForestSpamClassifier
+from spam_detector_ai.classifiers.svm_classifier import SVMClassifier
+from spam_detector_ai.loading_and_processing.preprocessor import Preprocessor
 
 
 def get_model_path(model_type):
