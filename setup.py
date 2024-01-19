@@ -19,6 +19,8 @@ setuptools.setup(
     url=__url__,
     description=__description__,
     project_urls={
-        "Author Website": __author_website__,
+        "Author's Website": __author_website__,
+        "Bug Tracker": f"{__url__}/issues",
+        "Contact Page": f"{__author_website__}/contact/",
     },
 )
