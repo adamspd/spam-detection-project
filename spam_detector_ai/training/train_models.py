@@ -29,7 +29,12 @@ class ModelTrainer:
         if self.data is None:
             self.logger.info(f'Loading data from {self.data_path}')
             self.data = DataLoader(self.data_path).get_data()
-        self.processed_data = Preprocessor().preprocess(self.data)
+
+        preprocessor = Preprocessor()
+
+        # The preprocess method now handles all preprocessing steps.
+        self.processed_data = preprocessor.preprocess(self.data)
+
         return self.processed_data
 
     def split_data_(self):
