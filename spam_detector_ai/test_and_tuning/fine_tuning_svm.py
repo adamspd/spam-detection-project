@@ -17,7 +17,7 @@ if __name__ == '__main__':
                   'kernel': ['rbf', 'linear', 'poly', 'sigmoid']}
 
     logger.info("Define the grid search")
-    grid_search = GridSearchCV(SVC(), param_grid, refit=True, verbose=3, cv=5)
+    grid_search = GridSearchCV(SVC(), param_grid, refit=True, verbose=3, cv=5, n_jobs=-1)
 
     logger.info("Loading the training data")
     trainer = ModelTrainer(data_path='../data/spam.csv', classifier_type=ClassifierType.SVM, logger=logger)
