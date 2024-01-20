@@ -2,6 +2,7 @@
 
 ![Tests](https://github.com/adamspd/spam-detection-project/actions/workflows/tests.yml/badge.svg)
 [![PyPI version](https://badge.fury.io/py/spam-detector-ai.svg)](https://badge.fury.io/py/spam-detector-ai)
+[![PyPi downloads](https://static.pepy.tech/personalized-badge/spam-detector-ai?period=total&units=international_system&left_color=grey&right_color=orange&left_text=pip%20downloads)](https://pypi.org/project/spacy/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![GitHub last commit](https://img.shields.io/github/last-commit/adamspd/spam-detection-project)](https://github.com/adamspd/spam-detection-project/commit/main)
 [![GitHub issues](https://img.shields.io/github/issues/adamspd/spam-detection-project)](https://github.com/adamspd/spam-detection-project/issues)
