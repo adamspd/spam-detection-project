@@ -71,6 +71,7 @@ python3 spam_detector_ai/trainer.py
 ```
 
 :warning: **Warning**: A module not found error may occur :warning:
+
 If this happens, use an IDE to run the `trainer.py`file until a fix is implemented.
 
 This will train all the models and save them as `.joblib` files in the models directory. For now, there is 3 models:
@@ -176,6 +177,7 @@ python test_and_tuning/test.py
 ```
 
 :warning: **Warning**: A module not found error may occur :warning:
+
 If this happens, use an IDE to run the `test.py`file until a fix is implemented.
 
 
