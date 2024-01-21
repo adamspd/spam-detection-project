@@ -13,7 +13,7 @@ Spam-Detector-AI is a Python package for detecting and filtering spam messages u
 package integrates with Django or any other project that uses python and offers three different classifiers: Naive
 Bayes, Random Forest, and Support Vector Machine (SVM).
 
-:warning: **Warning**: No significant breaking changes were added to the version 2.x.x in terms of usage. :warning:
+⚠️ **Warning**: No significant breaking changes were added to the version 2.x.x in terms of usage. ⚠️
 
 ## Table of Contents
 
@@ -70,7 +70,7 @@ To train the models, run the following command:
 python3 spam_detector_ai/trainer.py
 ```
 
-:warning: **Warning**: A module not found error may occur :warning:
+⚠️ **Warning**: A module not found error may occur ⚠️
 
 If this happens, use an IDE to run the `trainer.py`file until a fix is implemented.
 
