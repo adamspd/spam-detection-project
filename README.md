@@ -10,10 +10,14 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/adamspd/spam-detection-project)](https://github.com/adamspd/spam-detection-project/graphs/contributors)
 
 Spam-Detector-AI is a Python package for detecting and filtering spam messages using Machine Learning models. The
-package integrates with Django or any other project that uses python and offers three different classifiers: Naive
-Bayes, Random Forest, and Support Vector Machine (SVM).
+package integrates with Django or any other project that uses python and offers different types of classifiers: Naive
+Bayes, Random Forest, and Support Vector Machine (SVM). Since version 2.1.0, two new classifiers have been added:
+Logistic Regression and XGBClassifier.
 
-⚠️ **Warning**: No significant breaking changes were added to the version 2.x.x in terms of usage. ⚠️
+⚠️ _**Warning**: No significant breaking changes were added to the version 2.x.x in terms of usage. On the other hand,
+the fine-tuning of the models has been moved to a separate module (`tuning`) and the tests have been moved to a
+separate module (`tests`)._
+⚠️
 
 ## Table of Contents
 
@@ -42,6 +46,7 @@ Make sure you have the following dependencies installed:
 - pandas
 - numpy
 - joblib
+- xgboost
 
 Additionally, you'll need to download the NLTK data and to do so, use the python interpreter to run the following
 commands:
@@ -76,9 +81,11 @@ If this happens, use an IDE to run the `trainer.py`file until a fix is implement
 
 This will train all the models and save them as `.joblib` files in the models directory. For now, there is 3 models:
 
-- `naive_bayes.pkl`
-- `random_forest.pkl`
-- `svm.pkl`
+- `naive_bayes_model.joblib`
+- `random_forest_model.joblib`
+- `svm_model.joblib`
+- `logistic_regression_model.joblib`
+- `xgb_model.joblib`
 
 ### Tests
 
@@ -166,20 +173,110 @@ The test results are shown below:
 
 ##### Accuracy: 0.9773572152754308
 
-The models that performed the best are the Random Forest and the SVM. The SVM model has a slightly better accuracy than
-the Random Forest model. Knowing that all the models were not perfect, I decided to use a voting classifier to combine
-the predictions of the 3 models. The voting classifier will use the majority vote to make the final prediction.
+<br>
+
+#### _Model: LOGISTIC_REGRESSION_
+
+##### Confusion Matrix:
+
+|                  | Predicted: Ham       | Predicted: Spam     |
+|------------------|----------------------|---------------------|
+| **Actual: Ham**  | 2065 (True Negative) | 48 (False Positive) |
+| **Actual: Spam** | 46 (False Negative)  | 989 (True Positive) |
+
+- True Negative (TN): 2065 messages were correctly identified as ham (non-spam).
+- False Positive (FP): 48 ham messages were incorrectly identified as spam.
+- False Negative (FN): 46 spam messages were incorrectly identified as ham.
+- True Positive (TP): 989 messages were correctly identified as spam.
+
+##### Performance Metrics:
+
+|              | Precision | Recall | F1-Score | Support |
+|--------------|-----------|--------|----------|---------|
+| Ham          | 0.98      | 0.98   | 0.98     | 2113    |
+| Spam         | 0.95      | 0.96   | 0.95     | 1035    |
+| **Accuracy** |           |        | **0.97** | 3148    |
+| Macro Avg    | 0.97      | 0.97   | 0.97     | 3148    |
+| Weighted Avg | 0.97      | 0.97   | 0.97     | 3148    |
+
+##### Accuracy: 0.9707680491551459
+
+<br>
+
+#### _Model: XGB_
+
+##### Confusion Matrix:
+
+|                  | Predicted: Ham       | Predicted: Spam      |
+|------------------|----------------------|----------------------|
+| **Actual: Ham**  | 2050 (True Negative) | 63 (False Positive)  |
+| **Actual: Spam** | 28 (False Negative)  | 1007 (True Positive) |
+
+- True Negative (TN): 2050 messages were correctly identified as ham (non-spam).
+- False Positive (FP): 63 ham messages were incorrectly identified as spam.
+- False Negative (FN): 28 spam messages were incorrectly identified as ham.
+- True Positive (TP): 1007 messages were correctly identified as spam.
+
+##### Performance Metrics:
+
+|              | Precision | Recall | F1-Score | Support |
+|--------------|-----------|--------|----------|---------|
+| Ham          | 0.99      | 0.97   | 0.98     | 2113    |
+| Spam         | 0.94      | 0.97   | 0.96     | 1035    |
+| **Accuracy** |           |        | **0.97** | 3148    |
+| Macro Avg    | 0.96      | 0.97   | 0.97     | 3148    |
+| Weighted Avg | 0.97      | 0.97   | 0.97     | 3148    |
+
+##### Accuracy: 0.9710927573062261
+
+The models that performed the best are the SVM and Logistic Regression, with the SVM model achieving slightly higher
+accuracy than Logistic Regression.
+Given that no single model achieved perfect accuracy, I have decided to implement a voting classifier.
+This classifier will combine the predictions of the five models (Naive Bayes, Random Forest, SVM,
+Logistic Regression, and XGB) using a majority vote system to make the final prediction.
+This approach aims to leverage the strengths of each model to improve overall prediction accuracy.
+
+##### Weighted Voting System
+
+To enhance the decision-making process, I've refined our approach to a weighted voting system. This new system assigns
+different weights to each model's vote based on their respective accuracies. The weights are proportional to the
+accuracy of each model relative to the sum of the accuracies of all models. The models with higher accuracy have a
+greater influence on the final decision.
+
+The models and their respective proportional weights are as follows:
+
+- Naive Bayes: Weight = 0.1822
+- Random Forest: Weight = 0.2047
+- SVM (Support Vector Machine): Weight = 0.2052
+- Logistic Regression: Weight = 0.2039
+- XGBoost (XGB): Weight = 0.2039
+
+These weights were calculated based on the accuracy of each model as a proportion of the total accuracy of all models. 
+The final decision whether a message is spam or not is determined by the weighted spam score. Each model casts a vote
+(spam or not spam), and this vote is multiplied by the model's weight. The weighted spam scores from all models are then
+summed up. If this total weighted spam score exceeds 50% of the total possible weight, the message is classified as
+spam. Otherwise, it's classified as not spam (ham).
+
+This approach ensures that the more accurate models have a larger say in the final decision, thereby increasing the
+reliability of spam detection. It combines the strengths of each model, compensating for individual weaknesses and
+provides a more nuanced classification.
+
+##### System Output
+
+The system provides a detailed output for each message, showing the vote (spam or ham) from each model, along with its
+weight. It also displays the total weighted spam score and the final classification decision (Spam or Not Spam). This
+transparency in the voting process allows for easier understanding and debugging of the model's performance on different
+messages.
 
 If you have trained the models on new data, you can test them by running the following command:
 
 ```sh
-python test_and_tuning/test.py
+python tests/test.py
 ```
 
-:warning: **Warning**: A module not found error may occur :warning:
+⚠️ **Warning**: A module not found error may occur ⚠️
 
 If this happens, use an IDE to run the `test.py`file until a fix is implemented.
-
 
 ### Making Predictions
 
@@ -208,7 +305,8 @@ print(f"Is spam: {is_spam}")
 - `loading_and_processing/`: Contains utility functions for loading and preprocessing data.
 - `models/`: Contains the trained models and their vectorizers.
 - `prediction/`: Contains the main spam detector class.
-- `test_and_tuning/`: Contains scripts for testing and tuning the classifiers.
+- `tests/`: Contains scripts for testing 
+- `tuning/`: Contains scripts for tuning the classifiers.
 - `training/`: Contains scripts for training the classifiers.
 
 ## Contributing
