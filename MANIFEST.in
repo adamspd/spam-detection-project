@@ -8,7 +8,8 @@ recursive-include classifiers/ *
 recursive-include loading_and_processing/ *
 recursive-include prediction/ *
 recursive-include training/ *
-recursive-include test_and_tuning/ *
+recursive-include tests/ *
+recursive-include tuning/ *
 include *.md
 include setup.py
 include logger_config.py
