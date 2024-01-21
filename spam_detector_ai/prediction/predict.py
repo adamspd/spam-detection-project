@@ -105,15 +105,41 @@ class VotingSpamDetector:
     def is_spam(self, message_):
         # Count the number of spam predictions
         spam_votes = sum(detector.is_spam(message_) for detector in self.detectors)
-        print(f"spam_votes: {[detector.is_spam(message_) for detector in self.detectors]}")
         # Count the number of ham (not spam) predictions
         ham_votes = len(self.detectors) - spam_votes
         # Majority voting: if the majority of detectors say it's a spam, return True, otherwise False
+        print(f"Votes: {[detector.is_spam(message_) for detector in self.detectors]}, spam: {spam_votes}, "
+              f"ham: {ham_votes}")
         return spam_votes > ham_votes
 
 
 if __name__ == "__main__":
     voting_detector = VotingSpamDetector()
 
-    message = "Hi John, I hope you are doing well. I wanted to follow up on the meeting we had last week. When can we schedule the next meeting? Best, Jane"
-    print("Voting -> Is spam:", voting_detector.is_spam(message))
+    message_1 = "Hello!"
+    print("Message 1 -> Is spam:", voting_detector.is_spam(message_1), f"Expected: False")
+    message_2 = (f"Hi, I noticed your website hasn't embraced AI capabilities yet. Would you be interested in a "
+                 f"suggestion I have?")
+    print("Message 2 -> Is spam:", voting_detector.is_spam(message_2), f"Expected: True")
+    message_3 = (f"Developed by a Construction Specific CPA Firm, TimeSuite is the worlds most advanced Construction "
+                 f"Software. TimeSuite is next generation. Advanced because it’s intuitive, comprehensive and "
+                 f"dynamic. Advanced because it’s has a relational architecture (no modular subsystems/no modules). "
+                 f"Web, desktop and mobile interfaces to a single database. One system, 3 comprehensive interfaces. "
+                 f"Project Management, Accounting, Scheduling, Estimating, On-Screen Take Off, PDF Viewer, "
+                 f"CAD Drawing Layering, Geo Timecards, CRM, Task Management, Resource Management, Banking System "
+                 f"Integration, Text Messaging, Email, Calendar, Form Creation, Property Management, "
+                 f"RFQs/Bid Packages, Outlook and Google email and calendar integrations and more. Fully automated "
+                 f"percentage of completion method of accounting with a full job schedule that always ties to the "
+                 f"income statement. Gain access to a live fully functional demo at TimeSuite.com.")
+    print("Message 3 -> Is spam:", voting_detector.is_spam(message_3), f"Expected: True")
+    message_4 = (f"Bonsoir mwen se Haitian mwen bezwen pran seminaire sou profesyon siw fè please retounenm poum pran "
+                 f"kontak avem mesi.")
+    print("Message 4 -> Is spam:", voting_detector.is_spam(message_4), f"Expected: False")
+    message_5 = (f"subject: Want a birthday shoot for my little brother and I. I am one of Jeff and Germina's"
+                 f"friends and Germina' friends they give me your website and our birthday is on the 21st of "
+                 f"February please lemme know.")
+    print("Message 5 -> Is spam:", voting_detector.is_spam(message_5), f"Expected: False")
+    message_6 = f"Hello, I went to your blog and I really like your article. Thanks for doing such a great job."
+    print("Message 6 -> Is spam:", voting_detector.is_spam(message_6), f"Expected: False")
+    message_7 = f"Hi, when I tried browsing through your article, I found a few broken links. Please fix them."
+    print("Message 7 -> Is spam:", voting_detector.is_spam(message_7), f"Expected: False")
