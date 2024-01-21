@@ -12,7 +12,8 @@ from spam_detector_ai.training.train_models import ModelTrainer
 
 @pytest.fixture(scope="module")
 def test_model():
-    classifier_types = [ClassifierType.NAIVE_BAYES, ClassifierType.RANDOM_FOREST, ClassifierType.SVM]
+    classifier_types = [ClassifierType.NAIVE_BAYES, ClassifierType.RANDOM_FOREST, ClassifierType.SVM,
+                        ClassifierType.XGB, ClassifierType.LOGISTIC_REGRESSION]
     logger = init_logging()
     current_dir = os.path.dirname(os.path.abspath(__file__))
     base_dir = os.path.dirname(current_dir)

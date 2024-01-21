@@ -8,10 +8,13 @@ Date Written: 2023-06-12
 import os
 
 from spam_detector_ai.classifiers.classifier_types import ClassifierType
+from spam_detector_ai.classifiers.logistic_regression_classifier import LogisticRegressionSpamClassifier
 from spam_detector_ai.classifiers.naive_bayes_classifier import NaiveBayesClassifier
 from spam_detector_ai.classifiers.random_forest_classifier import RandomForestSpamClassifier
 from spam_detector_ai.classifiers.svm_classifier import SVMClassifier
+from spam_detector_ai.classifiers.xgb_classifier import XGBSpamClassifier
 from spam_detector_ai.loading_and_processing.preprocessor import Preprocessor
+from spam_detector_ai.prediction.performance import ModelAccuracy
 
 
 def get_model_path(model_type):
@@ -33,6 +36,14 @@ def get_model_path(model_type):
         ClassifierType.SVM: (
             'models/svm/svm_model.joblib',
             'models/svm/svm_vectoriser.joblib'
+        ),
+        ClassifierType.XGB: (
+            'models/xgb/xgb_model.joblib',
+            'models/xgb/xgb_vectoriser.joblib'
+        ),
+        ClassifierType.LOGISTIC_REGRESSION: (
+            'models/logistic_regression/logistic_regression_model.joblib',
+            'models/logistic_regression/logistic_regression_vectoriser.joblib'
         )
     }
 
@@ -54,7 +65,9 @@ class SpamDetector:
         classifier_map = {
             ClassifierType.NAIVE_BAYES.value: NaiveBayesClassifier(),
             ClassifierType.RANDOM_FOREST.value: RandomForestSpamClassifier(),
-            ClassifierType.SVM.value: SVMClassifier()
+            ClassifierType.SVM.value: SVMClassifier(),
+            ClassifierType.XGB.value: XGBSpamClassifier(),
+            ClassifierType.LOGISTIC_REGRESSION.value: LogisticRegressionSpamClassifier(),
         }
         classifier = classifier_map.get(model_type.value)
         if not classifier:
@@ -96,28 +109,34 @@ class VotingSpamDetector:
     or not spam using majority voting of multiple spam detectors models."""
 
     def __init__(self):
+        total_accuracy = ModelAccuracy.total_accuracy()
         self.detectors = [
-            SpamDetector(model_type=ClassifierType.NAIVE_BAYES),
-            SpamDetector(model_type=ClassifierType.RANDOM_FOREST),
-            SpamDetector(model_type=ClassifierType.SVM)
+            (SpamDetector(model_type=ClassifierType.NAIVE_BAYES), ModelAccuracy.NAIVE_BAYES / total_accuracy),
+            (SpamDetector(model_type=ClassifierType.RANDOM_FOREST), ModelAccuracy.RANDOM_FOREST / total_accuracy),
+            (SpamDetector(model_type=ClassifierType.SVM), ModelAccuracy.SVM / total_accuracy),
+            (SpamDetector(model_type=ClassifierType.LOGISTIC_REGRESSION), ModelAccuracy.LOGISTIC_REG / total_accuracy),
+            (SpamDetector(model_type=ClassifierType.XGB), ModelAccuracy.XGB / total_accuracy)
         ]
 
     def is_spam(self, message_):
-        # Count the number of spam predictions
-        spam_votes = sum(detector.is_spam(message_) for detector in self.detectors)
-        # Count the number of ham (not spam) predictions
-        ham_votes = len(self.detectors) - spam_votes
-        # Majority voting: if the majority of detectors say it's a spam, return True, otherwise False
-        print(f"Votes: {[detector.is_spam(message_) for detector in self.detectors]}, spam: {spam_votes}, "
-              f"ham: {ham_votes}")
-        return spam_votes > ham_votes
+        total_weight = sum(weight for _, weight in self.detectors)
+        decision_threshold = total_weight / 2
+        votes = [(detector.is_spam(message_), weight) for detector, weight in self.detectors]
+        weighted_spam_score = sum(vote * weight for vote, weight in votes)
+
+        # Interpret and display the voting results
+        vote_descriptions = [f"{'Spam' if vote else 'Ham'} (Weight: {weight:.4f})" for vote, weight in votes]
+        decision = "Spam" if weighted_spam_score > 0.50 else "Ham"
+        print(f"Votes: {vote_descriptions}, Weighted Spam Score: {weighted_spam_score:.4f}, Classified as: {decision}")
+
+        return weighted_spam_score > decision_threshold
 
 
 if __name__ == "__main__":
     voting_detector = VotingSpamDetector()
 
     message_1 = "Hello!"
-    print("Message 1 -> Is spam:", voting_detector.is_spam(message_1), f"Expected: False")
+    print("Message 1 -> Is spam:", voting_detector.is_spam(message_1), f"Expected: True")
     message_2 = (f"Hi, I noticed your website hasn't embraced AI capabilities yet. Would you be interested in a "
                  f"suggestion I have?")
     print("Message 2 -> Is spam:", voting_detector.is_spam(message_2), f"Expected: True")
