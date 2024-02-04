@@ -107,7 +107,7 @@ jobs:
         uses: release-drafter/release-drafter@v6
         with:
           commitish: main
-          tag: v${{ needs.prepare-and-check.outputs.version }}
+          tag: v${{ env.RELEASE_VERSION }}
           name: Release ${{ env.RELEASE_VERSION }}
           version: ${{ env.RELEASE_VERSION }}
         env:
@@ -120,8 +120,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_VERSION: ${{ needs.prepare-and-check.outputs.version }}
         with:
-          tag_name: v${{ needs.prepare-and-check.outputs.version }}
-          release_name: Release v${{ needs.prepare-and-check.outputs.version }}
+          tag_name: v${{ env.RELEASE_VERSION }}
+          release_name: Release ${{ env.RELEASE_VERSION }}
           body: ${{ steps.draft_release.outputs.body }}
           draft: false
           prerelease: false
