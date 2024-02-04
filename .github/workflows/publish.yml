@@ -78,8 +78,8 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_PASSWORD }}
 
   create-release:
-    needs: build-and-publish
-    if: needs.build-and-publish.outputs.publish_to_pypi == 'true'
+    needs: [prepare-and-check, build-and-publish]
+    if: needs.prepare-and-check.outputs.publish_to_pypi == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -94,6 +94,9 @@ jobs:
         uses: sigstore/gh-action-sigstore-python@v2.1.1
         with:
           inputs: ./dist/*.tar.gz ./dist/*.whl
+
+      - name: Set Release Version Env
+        run: echo "RELEASE_VERSION=${{ needs.prepare-and-check.outputs.version }}" >> $GITHUB_ENV
 
       - name: Draft Release
         id: draft_release
