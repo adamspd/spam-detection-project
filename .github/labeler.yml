@@ -1,63 +1,63 @@
 documentation:
-- changed-files:
-  - any-glob-to-any-file:
-    - "**/*.md"
-    - LICENSE
-    - "docs/**/*"
-    - "screenshots/**/*"
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.md"
+          - LICENSE
+          - "docs/**/*"
+          - "screenshots/**/*"
 
 dependencies:
-- changed-files:
-  - any-glob-to-any-file:
-    - requirements.txt
-    - requirements-dev.txt
+  - changed-files:
+      - any-glob-to-any-file:
+          - requirements.txt
+          - requirements-dev.txt
 
 publishing:
-- changed-files:
-  - any-glob-to-any-file:
-    - check_version.py
-    - setup.py
-    - MANIFEST.in
-    - setup.cfg
+  - changed-files:
+      - any-glob-to-any-file:
+          - check_version.py
+          - setup.py
+          - MANIFEST.in
+          - setup.cfg
 
 github-actions:
-- changed-files:
-  - any-glob-to-any-file:
-    - ".github/**/*"
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/**/*"
 
 tests:
-- changed-files:
-  - any-glob-to-any-file:
-    - "spam_detector_ai/test_and_tuning/**/*"
+  - changed-files:
+      - any-glob-to-any-file:
+          - "spam_detector_ai/test_and_tuning/**/*"
 
 models:
-- changed-files:
-  - any-glob-to-any-file:
-    - "spam_detector_ai/models/**/*"
+  - changed-files:
+      - any-glob-to-any-file:
+          - "spam_detector_ai/models/**/*"
 
 training:
-- changed-files:
-  - any-glob-to-any-file:
-    - "spam_detector_ai/training/**/*"
-    - "spam_detector_ai/data/**/*"
-    - "spam_detector_ai/classifiers/**/*"
-    - "spam_detector_ai/prediction/**/*"
-    - "spam_detector_ai/loading_and_processing/**/*"
+  - changed-files:
+      - any-glob-to-any-file:
+          - "spam_detector_ai/training/**/*"
+          - "spam_detector_ai/data/**/*"
+          - "spam_detector_ai/classifiers/**/*"
+          - "spam_detector_ai/prediction/**/*"
+          - "spam_detector_ai/loading_and_processing/**/*"
 
 feature:
-- head-branch: ['^feature', 'feature']
+  - head-branch: [ '^feature', 'feature' ]
 
 bug:
-- head-branch: ['^bug', 'bug']
+  - head-branch: [ '^bug', 'bug' ]
 
 fix:
-- head-branch: ['^fix', 'fix']
+  - head-branch: [ '^fix', 'fix' ]
 
 bugfix:
-- head-branch: ['^bugfix', 'bugfix']
+  - head-branch: [ '^bugfix', 'bugfix' ]
 
 chore:
-- head-branch: ['^chore', 'chore']
+  - head-branch: [ '^chore', 'chore' ]
 
 maintenance:
-- head-branch: ['^maintenance', 'maintenance']
+  - head-branch: [ '^maintenance', 'maintenance' ]
