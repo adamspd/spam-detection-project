@@ -99,6 +99,15 @@ jobs:
         with:
           inputs: ./dist/*.tar.gz ./dist/*.whl
 
+      - name: Bump version and push tag
+        id: create_tag
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_branches: main
+          default_bump: false
+          custom_tag: ${{ needs.prepare-and-check.outputs.version }}
+
       - name: Set Release Version Env
         run: echo "RELEASE_VERSION=${{ needs.prepare-and-check.outputs.version }}" >> $GITHUB_ENV
 
@@ -113,8 +122,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ needs.prepare-and-check.outputs.version }}
-          release_name: Release v${{ needs.prepare-and-check.outputs.version }}
+          tag_name: ${{ steps.create_tag.outputs.new_tag }}
+          release_name: Release ${{ steps.create_tag.outputs.new_tag }}
           body: ${{ steps.draft_release.outputs.body }}
           draft: false
           prerelease: false
