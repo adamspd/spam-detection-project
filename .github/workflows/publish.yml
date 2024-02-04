@@ -81,6 +81,10 @@ jobs:
     needs: [prepare-and-check, build-and-publish]
     if: needs.prepare-and-check.outputs.publish_to_pypi == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+
     steps:
       - uses: actions/checkout@v4
 
