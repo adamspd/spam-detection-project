@@ -105,6 +105,12 @@ jobs:
       - name: Draft Release
         id: draft_release
         uses: release-drafter/release-drafter@v6
+        with:
+          commitish: main
+          tag: v${{ needs.prepare-and-check.outputs.version }}
+          name_template: 'Release ${{ env.RELEASE_VERSION }}'
+          name: Release ${{ env.RELEASE_VERSION }}
+          version: ${{ env.RELEASE_VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_VERSION: ${{ needs.prepare-and-check.outputs.version }}
