@@ -7,8 +7,11 @@ documentation:
 dependencies:
 - requirements.txt
 
-enhancement:
-- "**"
+publishing:
+- check_version.py
+- setup.py
+- MANIFEST.in
+- setup.cfg
 
 github-actions:
 - ".github/**/*"
@@ -25,3 +28,21 @@ training:
 - "spam_detector_ai/classifiers/**/*"
 - "spam_detector_ai/prediction/**/*"
 - "spam_detector_ai/loading_and_processing/**/*"
+
+feature:
+- head-branch: ['^feature', 'feature']
+
+bug:
+- head-branch: ['^bug', 'bug']
+
+fix:
+- head-branch: ['^fix', 'fix']
+
+bugfix:
+- head-branch: ['^bugfix', 'bugfix']
+
+chore:
+- head-branch: ['^chore', 'chore']
+
+maintenance:
+- head-branch: ['^maintenance', 'maintenance']
