@@ -3,7 +3,7 @@
 ![Tests](https://github.com/adamspd/spam-detection-project/actions/workflows/tests.yml/badge.svg)
 [![Current Release Version](https://img.shields.io/github/release/adamspd/spam-detection-project.svg?style=flat-square&logo=github)](https://github.com/adamspd/spam-detection-project/releases)
 [![pypi Version](https://img.shields.io/pypi/v/spam-detector-ai.svg?style=flat-square&logo=pypi&logoColor=white)](https://pypi.org/project/spam-detector-ai/)
-[![PyPi downloads](https://static.pepy.tech/personalized-badge/spam-detector-ai?period=total&units=international_system&left_color=grey&right_color=orange&left_text=pip%20downloads)](https://pypi.org/project/spacy/)
+[![PyPi downloads](https://static.pepy.tech/personalized-badge/spam-detector-ai?period=total&units=international_system&left_color=grey&right_color=orange&left_text=pip%20downloads)](https://pypi.org/project/spam-detector-ai/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![GitHub last commit](https://img.shields.io/github/last-commit/adamspd/spam-detection-project)](https://github.com/adamspd/spam-detection-project/commit/main)
 [![GitHub issues](https://img.shields.io/github/issues/adamspd/spam-detection-project)](https://github.com/adamspd/spam-detection-project/issues)
