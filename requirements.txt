@@ -1,6 +1,6 @@
 scikit-learn==1.4.1.post1
 imbalanced-learn==0.12.2
-pandas==2.2.1
+pandas==2.2.2
 nltk~=3.8.1
 setuptools==69.2.0
 pytest==8.1.1
