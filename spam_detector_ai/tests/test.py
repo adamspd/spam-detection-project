@@ -1,6 +1,7 @@
 # spam_detector_ai/test_and_tuning/test.py
 
 import os
+import sys
 
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
@@ -9,6 +10,8 @@ from spam_detector_ai.classifiers.classifier_types import ClassifierType
 from spam_detector_ai.logger_config import init_logging
 from spam_detector_ai.prediction.predict import SpamDetector
 from spam_detector_ai.training.train_models import ModelTrainer
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 
 class TestModel:
@@ -20,7 +23,7 @@ class TestModel:
         # Assuming the spam_detector_ai directory is one level up from the current directory
         base_dir = os.path.dirname(current_dir)
         data_path = os.path.join(base_dir, 'data/spam.csv')
-        self.initial_trainer = ModelTrainer(data_path=data_path, classifier_type=None, logger=self.logger)
+        self.initial_trainer = ModelTrainer(data_path=data_path, logger=self.logger)
         self.processed_data = self.initial_trainer.preprocess_data_()
 
         # Split the data once
