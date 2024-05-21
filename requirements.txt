@@ -4,7 +4,7 @@ pandas==2.2.2
 nltk~=3.8.1
 setuptools==69.5.1
 pytest==8.2.0
-requests~=2.31.0
+requests~=2.32.1
 imblearn~=0.0
 joblib~=1.4.2
 xgboost~=2.0.3
