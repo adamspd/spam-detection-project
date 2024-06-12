@@ -23,6 +23,6 @@ setuptools.setup(
         "API Documentation": f"{__api_url__}/redoc/",
         "Author's Website": __author_website__,
         "Bug Tracker": f"{__url__}/issues",
-        "Contact Page": f"{__author_website__}/contact/",
+        "Contact Page": f"{__author_website__}contact/",
     },
 )
