@@ -4,7 +4,8 @@
 import setuptools
 
 from spam_detector_ai import (
-    __author__, __author_email__, __author_website__, __description__, __package_name__, __url__, __version__)
+    __api_url__, __author__, __author_email__, __author_website__, __description__, __package_name__, __url__,
+    __version__)
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -19,6 +20,7 @@ setuptools.setup(
     url=__url__,
     description=__description__,
     project_urls={
+        "API Documentation": f"{__api_url__}/redoc/",
         "Author's Website": __author_website__,
         "Bug Tracker": f"{__url__}/issues",
         "Contact Page": f"{__author_website__}/contact/",

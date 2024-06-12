@@ -252,7 +252,7 @@ The models and their respective proportional weights are as follows:
 - Logistic Regression: Weight = 0.2039
 - XGBoost (XGB): Weight = 0.2039
 
-These weights were calculated based on the accuracy of each model as a proportion of the total accuracy of all models. 
+These weights were calculated based on the accuracy of each model as a proportion of the total accuracy of all models.
 The final decision whether a message is spam or not is determined by the weighted spam score. Each model casts a vote
 (spam or not spam), and this vote is multiplied by the model's weight. The weighted spam scores from all models are then
 summed up. If this total weighted spam score exceeds 50% of the total possible weight, the message is classified as
@@ -306,7 +306,7 @@ print(f"Is spam: {is_spam}")
 - `loading_and_processing/`: Contains utility functions for loading and preprocessing data.
 - `models/`: Contains the trained models and their vectorizers.
 - `prediction/`: Contains the main spam detector class.
-- `tests/`: Contains scripts for testing 
+- `tests/`: Contains scripts for testing
 - `tuning/`: Contains scripts for tuning the classifiers.
 - `training/`: Contains scripts for training the classifiers.
 
@@ -320,15 +320,199 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Notes
 
+⚠️ **Warning**: In a future version, the data/spam.csv file may be removed to lighten the package. ⚠️
+
 The project contains 5 pre-trained models that can be used directly if you want to skip the training step.
 If you don't want to use the package, you can use the API that I have deployed
 [here](https://spam-detection-api.adamspierredavid.com/).
 
-The API is built with Django, and the following is an example of how I use it in a personal project:
+## API Versions
+⚠️ **Warning**: V1 is deprecated and V2 is highly recommended instead. ⚠️
 
-![Usage of the API](https://github.com/adamspd/spam-detection-project/blob/main/screenshots/spam-detection-api-example.png?raw=true)
+There are two versions of the API:
 
-The code:
+- **v1:** The original version of the API that requires only the message to determine if it is a spam.
+- **v2:** The updated version of the API that requires a JSON object with additional context about the message.
+
+### Why Create a Second Version of the API?
+
+The initial version of the API was too simplistic and did not provide enough context about the message to make an
+accurate prediction. The new version addresses this limitation by requiring more comprehensive information to improve
+prediction accuracy.
+
+### Required Information for Version 2
+
+To use version 2 of the API, the following information must be provided:
+
+- `text`: The content of the message to analyze.
+- `subject`: The subject of the message (optional).
+- `email`: The sender's email address.
+- `name`: The sender's name (optional).
+- `user_agent`: The sender's user agent string (important but, optional).
+- `ip`: The sender's IP address.
+
+### Additional Checks and Enhancements
+
+In version 2, several additional checks will be performed to enhance the accuracy of spam detection:
+
+- **Email Validation:**
+    - The email address format is validated.
+    - The existence of the domain is verified.
+    - MX, DMARC, and SPF records are checked.
+    - The email is checked against a list of disposable email addresses.
+
+If the models detect that the message is spam and the email is fake or disposable, the likelihood of the message being
+spam increases. Similarly, if the IP address is known to be associated with spam activities, the message is more likely
+to be classified as spam.
+
+- **IP Address Check:**
+    - The IP address is checked against known spam IP addresses.
+
+- **User Agent Validation:**
+    - The user agent string is validated.
+    - If the user agent appears to be from a bot, the message is more likely to be spam.
+
+By incorporating these additional checks, version 2 of the API provides a more robust and accurate spam detection
+service.
+
+## Example Usage of the API
+
+### Version 2
+
+<details>
+<summary>Python Example</summary>
+
+```python
+import requests
+
+
+def get_client_ip(request):
+    ip = request.META.get('HTTP_X_FORWARDED_FOR')
+    if ip:
+        ip = ip.split(',')[-1].strip()
+    else:
+        ip = request.META.get('HTTP_X_REAL_IP') or request.META.get('REMOTE_ADDR')
+    return ip
+
+
+def check_website_contact_form_v2(request):
+    message = request.POST.get('message')
+    subject = request.POST.get('subject')
+    email = request.POST.get('email')
+    name = request.POST.get('name', '')  # Optional
+    user_agent = request.META.get('HTTP_USER_AGENT', '')  # Optional
+    ip = get_client_ip(request)  # Get the IP address of the sender
+
+    # Prepare the JSON payload with the required information
+    payload = {
+        'text': message,
+        'subject': subject,
+        'email': email,
+        'name': name,
+        'user_agent': user_agent,
+        'ip': ip
+    }
+
+    # Call the spam detection API
+    response = requests.post(
+            "https://spam-detection-api.adamspierredavid.com/v2/check-spam/",
+            json=payload  # Use json parameter to send the payload
+    )
+
+    is_spam = False
+
+    # Check if the API request was successful
+    if response.status_code == 200:
+        # Parse the JSON response
+        json_response = response.json()
+        is_spam = json_response.get('is_spam')
+
+    if is_spam:
+        # Do something if the message is classified as spam.
+        # Personally, I save them as a Quarantined object to look at later (knowing that my ML models are not perfect), 
+        # and I do nothing with them in my code.
+        pass
+    else:
+        # Do something if the message is not classified as spam
+        # Send email, save it to a database as whatever, etc.
+        pass
+```
+</details>
+
+<details>
+<summary>Javascript Example</summary>
+
+```javascript
+async function getClientIP(req) {
+    let ip = req.headers['x-forwarded-for'];
+    if (ip) {
+        ip = ip.split(',').pop().trim();
+    } else {
+        ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
+    }
+    return ip;
+}
+
+async function checkWebsiteContactFormV2(req, res) {
+    const message = req.body.message;
+    const subject = req.body.subject;
+    const email = req.body.email;
+    const name = req.body.name || '';  // Optional
+    const user_agent = req.headers['user-agent'] || '';  // Optional
+    const ip = await getClientIP(req);  // Get the IP address of the sender
+
+    // Prepare the JSON payload with the required information
+    const payload = {
+        text: message,
+        subject: subject,
+        email: email,
+        name: name,
+        user_agent: user_agent,
+        ip: ip
+    };
+
+    try {
+        // Call the spam detection API
+        const response = await fetch("https://spam-detection-api.adamspierredavid.com/v2/check-spam/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        let is_spam = false;
+
+        // Check if the API request was successful
+        if (response.ok) {
+            const jsonResponse = await response.json();
+            is_spam = jsonResponse.is_spam;
+        }
+
+        if (is_spam) {
+            // Do something if the message is classified as spam.
+            // Personally, I save them as a Quarantined object to look at later (knowing that my ML models are not perfect),
+            // and I do nothing with them in my code.
+        } else {
+            // Do something if the message is not classified as spam
+            // Send email, save it to a database as whatever, etc.
+        }
+    } catch (error) {
+        console.error('Error checking spam:', error);
+        // Handle error
+    }
+}
+```
+
+</details>
+
+
+
+### Version 1 ___DEPRECATED___
+
+<details>
+
+<summary>Python Example</summary>
 
 ```python
 import requests
@@ -344,9 +528,9 @@ def check_website_contact_form(request):
 
     # Call the spam detection API
     response = requests.post(
-        "https://spam-detection-api.adamspierredavid.com/v1/check-spam/",
-        json={'text': message_with_subject}  # Use json parameter instead of data
-        # You can also do `json={'message': message_with_subject}
+            "https://spam-detection-api.adamspierredavid.com/v1/check-spam/",
+            json={'text': message_with_subject}  # Use json parameter instead of data
+            # You can also do `json={'message': message_with_subject}
     )
 
     is_spam = False
@@ -364,3 +548,51 @@ def check_website_contact_form(request):
         # Do something else
         pass
 ```
+</details>
+
+<details>
+<summary>Javascript Example</summary>
+
+```javascript
+async function checkWebsiteContactForm(req, res) {
+    const message = req.body.message;
+    const subject = req.body.subject;
+
+    // Concatenate subject and message
+    const messageWithSubject = `subject: ${subject}. ${message}`;
+
+    // Prepare the JSON payload
+    const payload = {
+        text: messageWithSubject
+    };
+
+    try {
+        // Call the spam detection API
+        const response = await fetch("https://spam-detection-api.adamspierredavid.com/v1/check-spam/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        let is_spam = false;
+
+        // Check if the API request was successful
+        if (response.ok) {
+            const jsonResponse = await response.json();
+            is_spam = jsonResponse.is_spam;
+        }
+
+        if (is_spam) {
+            // Do something
+        } else {
+            // Do something else
+        }
+    } catch (error) {
+        console.error('Error checking spam:', error);
+        // Handle error
+    }
+}
+```
+</details>
