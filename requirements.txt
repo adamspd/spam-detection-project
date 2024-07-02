@@ -2,7 +2,7 @@ scikit-learn==1.4.2
 imbalanced-learn==0.12.3
 pandas==2.2.2
 nltk~=3.8.1
-setuptools==70.0.0
+setuptools==70.2.0
 pytest==8.2.1
 requests~=2.32.3
 imblearn~=0.0
