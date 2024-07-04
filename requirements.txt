@@ -1,4 +1,4 @@
-scikit-learn==1.4.2
+scikit-learn==1.5.1
 imbalanced-learn==0.12.3
 pandas==2.2.2
 nltk~=3.8.1
