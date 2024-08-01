@@ -7,4 +7,4 @@ pytest==8.2.1
 requests~=2.32.3
 imblearn~=0.0
 joblib~=1.4.2
-xgboost~=2.0.3
+xgboost~=2.1.1
