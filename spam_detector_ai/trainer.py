@@ -1,6 +1,12 @@
 # spam_detector_ai/trainer.py
+import os
+import sys
+from pathlib import Path
 
 from sklearn.model_selection import train_test_split
+
+project_root = Path(__file__).parent.parent
+sys.path.append(str(project_root))
 
 from classifiers.classifier_types import ClassifierType
 from logger_config import init_logging
@@ -18,7 +24,8 @@ def train_model(classifier_type, model_filename, vectoriser_filename, X_train, y
 
 if __name__ == '__main__':
     # Load and preprocess data once
-    initial_trainer = ModelTrainer(data_path='data/spam.csv', logger=logger)
+    data_path = os.path.join(project_root, 'spam_detector_ai', 'data', 'spam.csv')
+    initial_trainer = ModelTrainer(data_path=data_path, logger=logger)
     processed_data = initial_trainer.preprocess_data_()
 
     # Split the data once

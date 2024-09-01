@@ -1,6 +1,7 @@
 # spam_detector_ai/training/train_models.py
 
 import os
+from pathlib import Path
 
 from sklearn.model_selection import train_test_split
 
@@ -77,19 +78,17 @@ class ModelTrainer:
             raise ValueError(f"Invalid classifier type: {self.classifier_type}")
 
     def save_model(self, model_filename, vectoriser_filename):
-        # Determine the directory of this file
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        # Assuming the spam_detector_ai directory is one level up from the current directory
-        base_dir = os.path.dirname(current_dir)
+        # Use the project root to construct the paths
+        project_root = Path(__file__).parent.parent
+        models_dir = project_root
         directory_path = self.get_directory_path()
 
-        # Ensure the directory exists
-        if not os.path.exists(directory_path):
-            os.makedirs(directory_path)
+        model_filepath = models_dir / directory_path / model_filename
+        vectoriser_filepath = models_dir / directory_path / vectoriser_filename
 
-        model_filepath = os.path.join(base_dir, directory_path, model_filename)
-        vectoriser_filepath = os.path.join(base_dir, directory_path, vectoriser_filename)
+        # Ensure the directory exists
+        model_filepath.parent.mkdir(parents=True, exist_ok=True)
 
         self.logger.info(f'Saving model to {model_filepath}')
-        self.classifier.save_model(model_filepath, vectoriser_filepath)
+        self.classifier.save_model(str(model_filepath), str(vectoriser_filepath))
         self.logger.info('Model saved.\n')
