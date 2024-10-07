@@ -1,5 +1,5 @@
 scikit-learn==1.5.1
-imbalanced-learn==0.12.3
+imbalanced-learn==0.12.4
 pandas==2.2.2
 nltk==3.9.1
 setuptools==74.0.0
