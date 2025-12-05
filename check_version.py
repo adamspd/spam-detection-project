@@ -20,24 +20,38 @@ def check_package_version(package_name, current_version, github_ref_=None):
     - publish_to_pypi: True if eligible for publishing to PyPI, False otherwise.
     - publish_to_testpypi: True if eligible for publishing to TestPyPI, False otherwise.
     """
-    version_exists = False
-    publish_to_pypi = False
-    publish_to_testpypi = False
-
     # Determine if this is a test version based on the GitHub ref or __test_version__
     is_test_version = "test" in github_ref_ if github_ref_ else __test_version__
     pypi_url = "https://test.pypi.org/pypi/" if is_test_version else "https://pypi.org/pypi/"
 
+    version_exists = False
+    publish_to_pypi = False
+    publish_to_testpypi = False
+
     # Check if the current version exists on the respective PyPI repository
     response = requests.get(f"{pypi_url}{package_name}/json")
+
     if response.status_code == 200:
+        # Package exists on PyPI, check if this specific version exists
         released_versions = response.json()["releases"].keys()
         if current_version in released_versions:
             print(f"Version {current_version} already exists on {'TestPyPI' if is_test_version else 'PyPI'}!")
             version_exists = True
         else:
-            publish_to_pypi = not is_test_version
+            print(
+                    f"Version {current_version} not found. Ready to publish to {'TestPyPI' if is_test_version else 'PyPI'}.")
             publish_to_testpypi = is_test_version
+            publish_to_pypi = not is_test_version
+    elif response.status_code == 404:
+        # Package doesn't exist at all - first release
+        print(
+                f"Package {package_name} not found on {'TestPyPI' if is_test_version else 'PyPI'}. Ready for first release.")
+        publish_to_testpypi = is_test_version
+        publish_to_pypi = not is_test_version
+    else:
+        # Network error or other issue
+        print(f"Error checking PyPI (status {response.status_code}). Skipping publish.")
+        version_exists = True  # Fail safe - don't publish if we can't verify
 
     # Set environment variables for GitHub Actions
     if "GITHUB_OUTPUT" in os.environ:
