@@ -1,7 +1,6 @@
 import os
 
 import requests
-from packaging.version import Version
 
 from spam_detector_ai import __package_name__, __test_version__, __version__
 
@@ -17,8 +16,6 @@ def check_package_version(package_name, current_version):
     - publish_to_pypi: True if eligible for publishing to PyPI, False otherwise.
     - publish_to_testpypi: True if eligible for publishing to TestPyPI, False otherwise.
     """
-    # Normalize version (e.g., "2.1.19-b1" becomes "2.1.19b1")
-    normalized_version = str(Version(current_version))
 
     # Use __test_version__ flag directly
     is_test_version = __test_version__
