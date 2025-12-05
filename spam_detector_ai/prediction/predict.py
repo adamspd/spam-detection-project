@@ -6,6 +6,13 @@ Date Written: 2023-06-12
 """
 
 import os
+import sys
+from pathlib import Path
+
+# Add the project root to the path if running as a script
+if __name__ == "__main__" and __package__ is None:
+    project_root = Path(__file__).parent.parent.parent
+    sys.path.insert(0, str(project_root))
 
 from spam_detector_ai.classifiers.classifier_types import ClassifierType
 from spam_detector_ai.classifiers.logistic_regression_classifier import LogisticRegressionSpamClassifier
@@ -38,7 +45,7 @@ def get_model_path(model_type):
             'models/svm/svm_vectoriser.joblib'
         ),
         ClassifierType.XGB: (
-            'models/xgb/xgb_model.joblib',
+            'models/xgb/xgb_model.json',
             'models/xgb/xgb_vectoriser.joblib'
         ),
         ClassifierType.LOGISTIC_REGRESSION: (

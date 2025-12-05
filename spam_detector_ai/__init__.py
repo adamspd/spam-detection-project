@@ -1,9 +1,9 @@
 __author__ = "Adams Pierre David"
-__author_email__ = "adamspd.developer@gmail.com"
+__author_email__ = "spam-detection-api@adamspierredavid.com"
 __author_website__ = "https://adamspierredavid.com/"
 __description__ = "A package for detecting and filtering spam messages using Machine Learning models."
 __package_name__ = "spam-detector-ai"
 __url__ = "https://github.com/adamspd/spam-detection-project"
 __api_url__ = "https://spam-detection-api.adamspierredavid.com"
-__version__ = "2.1.18"
-__test_version__ = False
+__version__ = "2.1.18-b0"
+__test_version__ = True

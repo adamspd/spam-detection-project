@@ -37,7 +37,7 @@ if __name__ == '__main__':
         (ClassifierType.SVM, 'svm_model.joblib', 'svm_vectoriser.joblib'),
         (ClassifierType.NAIVE_BAYES, 'naive_bayes_model.joblib', 'naive_bayes_vectoriser.joblib'),
         (ClassifierType.RANDOM_FOREST, 'random_forest_model.joblib', 'random_forest_vectoriser.joblib'),
-        (ClassifierType.XGB, 'xgb_model.joblib', 'xgb_vectoriser.joblib'),
+        (ClassifierType.XGB, 'xgb_model.json', 'xgb_vectoriser.joblib'),
         (ClassifierType.LOGISTIC_REGRESSION, 'logistic_regression_model.joblib',
          'logistic_regression_vectoriser.joblib')
     ]
