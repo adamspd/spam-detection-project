@@ -71,10 +71,22 @@ jobs:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
 
+      - name: Create tag if it doesn't exist
+        run: |
+          TAG_NAME="v${{ needs.prepare-and-check.outputs.version }}"
+          if ! git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git tag "$TAG_NAME"
+            git push origin "$TAG_NAME"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create GitHub Release
-        if: needs.prepare-and-check.outputs.publish_to_pypi == 'true'
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ needs.prepare-and-check.outputs.version }}
           name: v${{ needs.prepare-and-check.outputs.version }}
           files: dist/*
           generate_release_notes: true
