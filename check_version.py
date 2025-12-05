@@ -31,12 +31,12 @@ def check_package_version(package_name, current_version):
     if response.status_code == 200:
         # Package exists on PyPI, check if this specific version exists
         released_versions = response.json()["releases"].keys()
-        if normalized_version in released_versions:
-            print(f"Version {normalized_version} already exists on {'TestPyPI' if is_test_version else 'PyPI'}!")
+        if current_version in released_versions:
+            print(f"Version {current_version} already exists on {'TestPyPI' if is_test_version else 'PyPI'}!")
             version_exists = True
         else:
             print(
-                    f"Version {normalized_version} not found. Ready to publish to {'TestPyPI' if is_test_version else 'PyPI'}.")
+                    f"Version {current_version} not found. Ready to publish to {'TestPyPI' if is_test_version else 'PyPI'}.")
             publish_to_testpypi = is_test_version
             publish_to_pypi = not is_test_version
     elif response.status_code == 404:
@@ -56,7 +56,7 @@ def check_package_version(package_name, current_version):
             f.write(f"version_exists={version_exists}\n")
             f.write(f"publish_to_pypi={str(publish_to_pypi).lower()}\n")
             f.write(f"publish_to_testpypi={str(publish_to_testpypi).lower()}\n")
-            f.write(f"version={normalized_version}\n")
+            f.write(f"version={current_version}\n")
 
 
 if __name__ == "__main__":
