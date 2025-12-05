@@ -30,7 +30,7 @@ jobs:
 
       - name: Check version on PyPI or TestPyPI
         id: version_check
-        run: python3 check_version.py ${{ github.ref }}
+        run: python3 check_version.py
         env:
           GITHUB_OUTPUT: ${{ github.output }}
 
