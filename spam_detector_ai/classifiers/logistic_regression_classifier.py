@@ -12,5 +12,8 @@ class LogisticRegressionSpamClassifier(BaseClassifier):
 
     def train(self, X_train, y_train):
         X_train_vectorized = self.vectoriser.fit_transform(X_train)
-        self.classifier = LogisticRegression(C=10, max_iter=200, penalty='l2', solver='saga')
+        # 'l2' is already the default penalty; passing it explicitly triggers a
+        # FutureWarning in scikit-learn >= 1.8. Omitting it keeps the identical
+        # model (saga + L2) with no deprecation noise.
+        self.classifier = LogisticRegression(C=10, max_iter=200, solver='saga')
         self.classifier.fit(X_train_vectorized, y_train)
