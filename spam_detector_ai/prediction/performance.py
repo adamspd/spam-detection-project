@@ -1,7 +1,7 @@
 # performance.py
 
 class ModelAccuracy:
-    NAIVE_BAYES = 0.8679
+    NAIVE_BAYES = 0.9577
     RANDOM_FOREST = 0.9750
     SVM = 0.9774
     LOGISTIC_REG = 0.9708
