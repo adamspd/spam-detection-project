@@ -16,7 +16,7 @@ jobs:
       publish_to_testpypi: ${{ steps.version_check.outputs.publish_to_testpypi }}
       version: ${{ steps.version_check.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -42,7 +42,7 @@ jobs:
       id-token: write
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Python
         uses: actions/setup-python@v5
