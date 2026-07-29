@@ -6,6 +6,6 @@ setuptools==83.0.0
 pytest==9.1.1
 requests~=2.34.2
 imblearn~=0.0
-joblib~=1.5.2
+joblib~=1.5.3
 xgboost==3.3.0
 numpy==2.5.1
