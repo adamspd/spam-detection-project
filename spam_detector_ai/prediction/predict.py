@@ -5,9 +5,12 @@ Contact: https://adamspierredavid.com/contact/
 Date Written: 2023-06-12
 """
 
+import logging
 import os
 import sys
+from dataclasses import asdict, dataclass
 from pathlib import Path
+from typing import Dict, List, Union
 
 # Add the project root to the path if running as a script
 if __name__ == "__main__" and __package__ is None:
@@ -22,6 +25,43 @@ from spam_detector_ai.classifiers.svm_classifier import SVMClassifier
 from spam_detector_ai.classifiers.xgb_classifier import XGBSpamClassifier
 from spam_detector_ai.loading_and_processing.preprocessor import Preprocessor
 from spam_detector_ai.prediction.performance import ModelAccuracy
+
+logger = logging.getLogger(__name__)
+
+
+@dataclass(frozen=True)
+class SpamScore:
+    """Structured result of ``VotingSpamDetector.score()``.
+
+    ``score`` is a *weighted vote fraction*, not a calibrated probability.
+    Each of the 5 underlying classifiers casts a binary spam/ham vote; each
+    vote is multiplied by that classifier's normalised accuracy weight
+    (``ModelAccuracy.X / total_accuracy``, and these weights sum to 1.0, so
+    ``threshold`` is 0.5) and the results are summed. Because there are only
+    2**5 = 32 possible combinations of 5 binary votes, ``score`` can only
+    ever land on one of at most 32 unevenly-spaced values -- it is not a
+    continuous, calibrated likelihood. A score of 0.82 does not mean "82%
+    likely to be spam"; it means "the classifiers that voted spam together
+    hold 82% of the total accuracy weight". Compare ``score`` against
+    ``threshold`` (never hardcode 0.5) if you need to reproduce ``is_spam``,
+    and use ``score`` directly only for ranking/thresholding, not as a
+    probability.
+
+    ``score_type`` is always ``"weighted_vote"`` today. It exists so a future
+    probability-based score (e.g. via ``predict_proba``) can be introduced on
+    the same 0.0-1.0 scale without silently changing what an already-tuned
+    threshold means -- check ``score_type`` before reusing a stored
+    threshold.
+    """
+
+    is_spam: bool
+    score: float
+    threshold: float
+    score_type: str
+    votes: List[Dict[str, Union[str, bool, float]]]
+
+    def as_dict(self) -> dict:
+        return asdict(self)
 
 
 def get_model_path(model_type):
@@ -85,30 +125,28 @@ class SpamDetector:
         self.model.load_model(model_path, vectoriser_path)
         self.processor = Preprocessor()
 
-    def is_spam(self, message_):
-        # Preprocess the message
-        processed_message = self.processor.preprocess_text(message_)
-
-        # Vectorize the preprocessed message
+    def _predict_label(self, processed_message):
+        """Vectorise already-preprocessed text and return the raw model label ('spam' or 'ham')."""
         vectorized_message = self.model.vectoriser.transform([processed_message]).toarray()
-
-        # Make prediction
         prediction = self.model.classifier.predict(vectorized_message)
+        return prediction[0]
 
-        # Return True if spam, False if not spam
-        return prediction[0] == 'spam'
+    def is_spam(self, message_, preprocessed=False):
+        """Return True if spam, False if not spam.
+
+        By default ``message_`` is raw text and will be preprocessed here.
+        Pass ``preprocessed=True`` if the caller (e.g. VotingSpamDetector)
+        already ran the text through Preprocessor.preprocess_text, to avoid
+        preprocessing the same message once per classifier.
+        """
+        processed_message = message_ if preprocessed else self.processor.preprocess_text(message_)
+        # bool(...): the underlying model libraries return numpy scalar types
+        # (e.g. numpy.bool_), which are not JSON-serialisable.
+        return bool(self._predict_label(processed_message) == 'spam')
 
     def test_is_spam(self, message_):
         processed_message = self.processor.preprocess_text(message_)
-
-        # Vectorize the preprocessed message
-        vectorized_message = self.model.vectoriser.transform([processed_message]).toarray()
-
-        # Make prediction
-        prediction = self.model.classifier.predict(vectorized_message)
-
-        # Return True if spam, False if not spam
-        return prediction[0]
+        return self._predict_label(processed_message)
 
 
 class VotingSpamDetector:
@@ -118,25 +156,61 @@ class VotingSpamDetector:
     def __init__(self):
         total_accuracy = ModelAccuracy.total_accuracy()
         self.detectors = [
-            (SpamDetector(model_type=ClassifierType.NAIVE_BAYES), ModelAccuracy.NAIVE_BAYES / total_accuracy),
-            (SpamDetector(model_type=ClassifierType.RANDOM_FOREST), ModelAccuracy.RANDOM_FOREST / total_accuracy),
-            (SpamDetector(model_type=ClassifierType.SVM), ModelAccuracy.SVM / total_accuracy),
-            (SpamDetector(model_type=ClassifierType.LOGISTIC_REGRESSION), ModelAccuracy.LOGISTIC_REG / total_accuracy),
-            (SpamDetector(model_type=ClassifierType.XGB), ModelAccuracy.XGB / total_accuracy)
+            ("naive_bayes", SpamDetector(model_type=ClassifierType.NAIVE_BAYES),
+             ModelAccuracy.NAIVE_BAYES / total_accuracy),
+            ("random_forest", SpamDetector(model_type=ClassifierType.RANDOM_FOREST),
+             ModelAccuracy.RANDOM_FOREST / total_accuracy),
+            ("svm", SpamDetector(model_type=ClassifierType.SVM),
+             ModelAccuracy.SVM / total_accuracy),
+            ("logistic_regression", SpamDetector(model_type=ClassifierType.LOGISTIC_REGRESSION),
+             ModelAccuracy.LOGISTIC_REG / total_accuracy),
+            ("xgb", SpamDetector(model_type=ClassifierType.XGB),
+             ModelAccuracy.XGB / total_accuracy),
         ]
+        self.processor = Preprocessor()
+        # Weights are normalised to sum to 1.0, so this is 0.5 -- computed rather than
+        # hardcoded so the decision threshold can never drift from the weighting scheme.
+        self.decision_threshold = sum(weight for _, _, weight in self.detectors) / 2
 
-    def is_spam(self, message_):
-        total_weight = sum(weight for _, weight in self.detectors)
-        decision_threshold = total_weight / 2
-        votes = [(detector.is_spam(message_), weight) for detector, weight in self.detectors]
-        weighted_spam_score = sum(vote * weight for vote, weight in votes)
+    def score(self, message_) -> SpamScore:
+        """Classify ``message_`` and return the full weighted-vote breakdown.
 
-        # Interpret and display the voting results
-        vote_descriptions = [f"{'Spam' if vote else 'Ham'} (Weight: {weight:.4f})" for vote, weight in votes]
-        decision = "Spam" if weighted_spam_score > 0.50 else "Ham"
-        print(f"Votes: {vote_descriptions}, Weighted Spam Score: {weighted_spam_score:.4f}, Classified as: {decision}")
+        See ``SpamScore`` for what the returned ``score`` does and does not mean --
+        in short, it is a weighted vote fraction, not a calibrated probability.
+        """
+        # Preprocess once and reuse across all 5 classifiers, instead of each
+        # classifier independently preprocessing the same raw text.
+        processed_message = self.processor.preprocess_text(message_)
+        votes = [
+            (name, detector.is_spam(processed_message, preprocessed=True), weight)
+            for name, detector, weight in self.detectors
+        ]
+        weighted_spam_score = float(sum(vote * weight for _, vote, weight in votes))
+        is_spam_result = bool(weighted_spam_score > self.decision_threshold)
 
-        return weighted_spam_score > decision_threshold
+        if logger.isEnabledFor(logging.DEBUG):
+            vote_descriptions = [
+                f"{name}: {'Spam' if vote else 'Ham'} (Weight: {weight:.4f})"
+                for name, vote, weight in votes
+            ]
+            logger.debug(
+                "Votes: %s, Weighted Spam Score: %.4f, Classified as: %s",
+                vote_descriptions, weighted_spam_score, "Spam" if is_spam_result else "Ham",
+            )
+
+        return SpamScore(
+            is_spam=is_spam_result,
+            score=weighted_spam_score,
+            threshold=self.decision_threshold,
+            score_type="weighted_vote",
+            votes=[{"classifier": name, "vote": vote, "weight": weight} for name, vote, weight in votes],
+        )
+
+    def is_spam(self, message_) -> bool:
+        """Return True if spam, False otherwise. Thin wrapper over score() so the
+        two can never disagree; see score() for the weighted score, threshold,
+        and per-classifier vote breakdown."""
+        return self.score(message_).is_spam
 
 
 if __name__ == "__main__":

@@ -27,6 +27,7 @@ separate module (`tests`)._
     - [Training the Models](#training-the-models)
     - [Tests](#tests)
     - [Making Predictions](#making-predictions)
+        - [Getting a confidence score](#getting-a-confidence-score)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
 - [License](#license)
@@ -264,10 +265,19 @@ provides a more nuanced classification.
 
 ##### System Output
 
-The system provides a detailed output for each message, showing the vote (spam or ham) from each model, along with its
-weight. It also displays the total weighted spam score and the final classification decision (Spam or Not Spam). This
-transparency in the voting process allows for easier understanding and debugging of the model's performance on different
-messages.
+`VotingSpamDetector` logs the vote (spam or ham) from each model, along with its weight, the total weighted spam
+score, and the final classification decision, at `DEBUG` level via the standard `logging` module (logger name
+`spam_detector_ai.prediction.predict`). Nothing is printed to stdout as a side effect of classification — enable
+`DEBUG` logging on that logger in your own application if you want to see this detail:
+
+```python
+import logging
+
+logging.getLogger("spam_detector_ai.prediction.predict").setLevel(logging.DEBUG)
+```
+
+For a structured, programmatic breakdown of a single classification (rather than a log line), use `score()` —
+see [Getting a confidence score](#getting-a-confidence-score) below.
 
 If you have trained the models on new data, you can test them by running the following command:
 
@@ -298,6 +308,49 @@ message = "Enter the message here"
 is_spam = spam_detector.is_spam(message)
 print(f"Is spam: {is_spam}")
 ```
+
+### Getting a confidence score
+
+If a plain `True`/`False` isn't enough — for example, you want to auto-file messages above some
+confidence level and queue the rest for manual review — use `score()` instead of `is_spam()`. It runs the
+same 5 classifiers once and returns a structured breakdown instead of throwing the number away:
+
+```python
+from spam_detector_ai.prediction.predict import VotingSpamDetector
+
+spam_detector = VotingSpamDetector()
+
+result = spam_detector.score("Enter the message here")
+print(result.is_spam)     # bool   -- identical to spam_detector.is_spam(message)
+print(result.score)       # float  -- weighted vote fraction, 0.0-1.0
+print(result.threshold)   # float  -- the value `score` is compared against (0.5)
+print(result.score_type)  # str    -- "weighted_vote" (see warning below)
+print(result.votes)       # list   -- one entry per classifier: {"classifier", "vote", "weight"}
+
+# JSON-serialisable, e.g. for an API response:
+import json
+json.dumps(result.as_dict())
+```
+
+`is_spam(message)` is unchanged — it now runs as a thin wrapper over `score(message).is_spam`, so
+the two can never disagree, and calling both no longer runs the 5 classifiers twice.
+
+⚠️ **`score` is not a probability** ⚠️
+
+`score` is a **weighted vote fraction**, not a calibrated likelihood. Each of the 5 classifiers casts a
+binary spam/ham vote. Each vote is multiplied by that classifier's accuracy-based weight
+(`ModelAccuracy.X / total_accuracy`) — these weights are normalised to sum to `1.0`, which is why
+`threshold` is `0.5` — and the weighted votes are summed. Because there are only 5 binary votes, there
+are only 2⁵ = 32 possible combinations, so `score` can only ever land on one of at most 32
+unevenly-spaced values. **A score of `0.82` does not mean "82% likely to be spam"** — it means "the
+classifiers that voted spam together hold 82% of the total accuracy weight". Treat it as a ranking
+signal for a threshold you tune empirically, not as a statistical probability.
+
+`score_type` is included so that a future, genuinely probabilistic score (e.g. from `predict_proba`)
+can be shipped on the same `0.0`-`1.0` scale under the same field name without silently changing what
+an already-tuned threshold means. If you build automation around `score`, check `score_type ==
+"weighted_vote"` before trusting a threshold you calibrated against it — a different value means the
+number means something different now.
 
 ## Project Structure
 
