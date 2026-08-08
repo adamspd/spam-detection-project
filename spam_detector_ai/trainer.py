@@ -1,16 +1,13 @@
 # spam_detector_ai/trainer.py
+"""Train all 5 spam detection models and save them to the models/ directory."""
 import os
-import sys
 from pathlib import Path
 
 from sklearn.model_selection import train_test_split
 
-project_root = Path(__file__).parent.parent
-sys.path.append(str(project_root))
-
-from classifiers.classifier_types import ClassifierType
-from logger_config import init_logging
-from training.train_models import ModelTrainer
+from spam_detector_ai.classifiers.classifier_types import ClassifierType
+from spam_detector_ai.logger_config import init_logging
+from spam_detector_ai.training.train_models import ModelTrainer
 
 logger = init_logging()
 
@@ -24,8 +21,10 @@ def train_model(classifier_type, model_filename, vectoriser_filename, X_train, y
 
 if __name__ == '__main__':
     # Load and preprocess data once
-    data_path = os.path.join(project_root, 'spam_detector_ai', 'data', 'spam.csv')
-    initial_trainer = ModelTrainer(data_path=data_path, logger=logger)
+    # The current file is at spam_detector_ai/trainer.py, so project root is one level up
+    project_root = Path(__file__).parent.parent
+    data_path = project_root / 'spam_detector_ai' / 'data' / 'spam.csv'
+    initial_trainer = ModelTrainer(data_path=str(data_path), logger=logger)
     processed_data = initial_trainer.preprocess_data_()
 
     # Split the data once
