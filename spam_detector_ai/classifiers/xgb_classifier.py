@@ -21,7 +21,8 @@ class XGBSpamClassifier(BaseClassifier):
                 learning_rate=0.2,
                 max_depth=5,
                 n_estimators=300,
-                subsample=1
+                subsample=1,
+                random_state=0,
         )
         self.classifier.fit(X_train_vectorized, y_train_encoded)
 

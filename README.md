@@ -98,26 +98,26 @@ The test results are shown below:
 ##### Confusion Matrix:
 
 |                  | Predicted: Ham       | Predicted: Spam      |
-|------------------|----------------------|----------------------|
-| **Actual: Ham**  | 1935 (True Negative) | 170 (False Positive) |
-| **Actual: Spam** | 221 (False Negative) | 633 (True Positive)  |
+|------------------|-----------------------|----------------------|
+| **Actual: Ham**  | 2044 (True Negative)  | 101 (False Positive) |
+| **Actual: Spam** | 38 (False Negative)   | 1106 (True Positive) |
 
-- True Negative (TN): 1935 messages were correctly identified as ham (non-spam).
-- False Positive (FP): 170 ham messages were incorrectly identified as spam.
-- False Negative (FN): 221 spam messages were incorrectly identified as ham.
-- True Positive (TP): 633 messages were correctly identified as spam.
+- True Negative (TN): 2044 messages were correctly identified as ham (non-spam).
+- False Positive (FP): 101 ham messages were incorrectly identified as spam.
+- False Negative (FN): 38 spam messages were incorrectly identified as ham.
+- True Positive (TP): 1106 messages were correctly identified as spam.
 
 ##### Performance Metrics:
 
 |              | Precision | Recall | F1-Score | Support |
 |--------------|-----------|--------|----------|---------|
-| Ham          | 0.90      | 0.92   | 0.91     | 2105    |
-| Spam         | 0.79      | 0.74   | 0.76     | 854     |
-| **Accuracy** |           |        | **0.87** | 2959    |
-| Macro Avg    | 0.84      | 0.83   | 0.84     | 2959    |
-| Weighted Avg | 0.87      | 0.87   | 0.87     | 2959    |
+| Ham          | 0.9817    | 0.9529 | 0.9671   | 2145    |
+| Spam         | 0.9163    | 0.9668 | 0.9409   | 1144    |
+| **Accuracy** |           |        | **0.9577** | 3289  |
+| Macro Avg    | 0.9490    | 0.9598 | 0.9540   | 3289    |
+| Weighted Avg | 0.9590    | 0.9577 | 0.9580   | 3289    |
 
-##### Accuracy: 0.8678607637715444
+##### Accuracy: 0.9577379142596534
 
 <br>
 
@@ -125,27 +125,27 @@ The test results are shown below:
 
 ##### Confusion Matrix:
 
-|                  | Predicted: Ham       | Predicted: Spam     |
-|------------------|----------------------|---------------------|
-| **Actual: Ham**  | 2067 (True Negative) | 38 (False Positive) |
-| **Actual: Spam** | 36 (False Negative)  | 818 (True Positive) |
+|                  | Predicted: Ham       | Predicted: Spam      |
+|------------------|-----------------------|----------------------|
+| **Actual: Ham**  | 2094 (True Negative)  | 51 (False Positive)  |
+| **Actual: Spam** | 33 (False Negative)   | 1111 (True Positive) |
 
-- True Negative (TN): 2067 messages were correctly identified as ham (non-spam).
-- False Positive (FP): 38 ham messages were incorrectly identified as spam.
-- False Negative (FN): 36 spam messages were incorrectly identified as ham.
-- True Positive (TP): 818 messages were correctly identified as spam.
+- True Negative (TN): 2094 messages were correctly identified as ham (non-spam).
+- False Positive (FP): 51 ham messages were incorrectly identified as spam.
+- False Negative (FN): 33 spam messages were incorrectly identified as ham.
+- True Positive (TP): 1111 messages were correctly identified as spam.
 
 ##### Performance Metrics:
 
 |              | Precision | Recall | F1-Score | Support |
 |--------------|-----------|--------|----------|---------|
-| Ham          | 0.98      | 0.98   | 0.98     | 2105    |
-| Spam         | 0.96      | 0.96   | 0.96     | 854     |
-| **Accuracy** |           |        | **0.97** | 2959    |
-| Macro Avg    | 0.97      | 0.97   | 0.97     | 2959    |
-| Weighted Avg | 0.98      | 0.97   | 0.98     | 2959    |
+| Ham          | 0.9845    | 0.9762 | 0.9803   | 2145    |
+| Spam         | 0.9561    | 0.9712 | 0.9636   | 1144    |
+| **Accuracy** |           |        | **0.9745** | 3289  |
+| Macro Avg    | 0.9703    | 0.9737 | 0.9720   | 3289    |
+| Weighted Avg | 0.9746    | 0.9745 | 0.9745   | 3289    |
 
-##### Accuracy: 0.9749915511997297
+##### Accuracy: 0.9744603222864092
 
 <br>
 
@@ -153,27 +153,27 @@ The test results are shown below:
 
 ##### Confusion Matrix:
 
-|                  | Predicted: Ham       | Predicted: Spam     |
-|------------------|----------------------|---------------------|
-| **Actual: Ham**  | 2080 (True Negative) | 25 (False Positive) |
-| **Actual: Spam** | 41 (False Negative)  | 813 (True Positive) |
+|                  | Predicted: Ham       | Predicted: Spam      |
+|------------------|-----------------------|----------------------|
+| **Actual: Ham**  | 2093 (True Negative)  | 52 (False Positive)  |
+| **Actual: Spam** | 31 (False Negative)   | 1113 (True Positive) |
 
-- True Negative (TN): 2080 messages were correctly identified as ham (non-spam).
-- False Positive (FP): 25 ham messages were incorrectly identified as spam.
-- False Negative (FN): 41 spam messages were incorrectly identified as ham.
-- True Positive (TP): 813 messages were correctly identified as spam.
+- True Negative (TN): 2093 messages were correctly identified as ham (non-spam).
+- False Positive (FP): 52 ham messages were incorrectly identified as spam.
+- False Negative (FN): 31 spam messages were incorrectly identified as ham.
+- True Positive (TP): 1113 messages were correctly identified as spam.
 
 ##### Performance Metrics:
 
 |              | Precision | Recall | F1-Score | Support |
 |--------------|-----------|--------|----------|---------|
-| Ham          | 0.98      | 0.99   | 0.98     | 2105    |
-| Spam         | 0.97      | 0.95   | 0.96     | 854     |
-| **Accuracy** |           |        | **0.98** | 2959    |
-| Macro Avg    | 0.98      | 0.97   | 0.97     | 2959    |
-| Weighted Avg | 0.98      | 0.98   | 0.98     | 2959    |
+| Ham          | 0.9854    | 0.9758 | 0.9806   | 2145    |
+| Spam         | 0.9554    | 0.9729 | 0.9641   | 1144    |
+| **Accuracy** |           |        | **0.9748** | 3289  |
+| Macro Avg    | 0.9704    | 0.9743 | 0.9723   | 3289    |
+| Weighted Avg | 0.9750    | 0.9748 | 0.9748   | 3289    |
 
-##### Accuracy: 0.9773572152754308
+##### Accuracy: 0.9747643660687139
 
 <br>
 
@@ -181,27 +181,27 @@ The test results are shown below:
 
 ##### Confusion Matrix:
 
-|                  | Predicted: Ham       | Predicted: Spam     |
-|------------------|----------------------|---------------------|
-| **Actual: Ham**  | 2065 (True Negative) | 48 (False Positive) |
-| **Actual: Spam** | 46 (False Negative)  | 989 (True Positive) |
+|                  | Predicted: Ham       | Predicted: Spam      |
+|------------------|-----------------------|----------------------|
+| **Actual: Ham**  | 2060 (True Negative)  | 85 (False Positive)  |
+| **Actual: Spam** | 53 (False Negative)   | 1091 (True Positive) |
 
-- True Negative (TN): 2065 messages were correctly identified as ham (non-spam).
-- False Positive (FP): 48 ham messages were incorrectly identified as spam.
-- False Negative (FN): 46 spam messages were incorrectly identified as ham.
-- True Positive (TP): 989 messages were correctly identified as spam.
+- True Negative (TN): 2060 messages were correctly identified as ham (non-spam).
+- False Positive (FP): 85 ham messages were incorrectly identified as spam.
+- False Negative (FN): 53 spam messages were incorrectly identified as ham.
+- True Positive (TP): 1091 messages were correctly identified as spam.
 
 ##### Performance Metrics:
 
 |              | Precision | Recall | F1-Score | Support |
 |--------------|-----------|--------|----------|---------|
-| Ham          | 0.98      | 0.98   | 0.98     | 2113    |
-| Spam         | 0.95      | 0.96   | 0.95     | 1035    |
-| **Accuracy** |           |        | **0.97** | 3148    |
-| Macro Avg    | 0.97      | 0.97   | 0.97     | 3148    |
-| Weighted Avg | 0.97      | 0.97   | 0.97     | 3148    |
+| Ham          | 0.9749    | 0.9604 | 0.9676   | 2145    |
+| Spam         | 0.9277    | 0.9537 | 0.9405   | 1144    |
+| **Accuracy** |           |        | **0.9580** | 3289  |
+| Macro Avg    | 0.9513    | 0.9570 | 0.9541   | 3289    |
+| Weighted Avg | 0.9585    | 0.9580 | 0.9582   | 3289    |
 
-##### Accuracy: 0.9707680491551459
+##### Accuracy: 0.958041958041958
 
 <br>
 
@@ -210,29 +210,30 @@ The test results are shown below:
 ##### Confusion Matrix:
 
 |                  | Predicted: Ham       | Predicted: Spam      |
-|------------------|----------------------|----------------------|
-| **Actual: Ham**  | 2050 (True Negative) | 63 (False Positive)  |
-| **Actual: Spam** | 28 (False Negative)  | 1007 (True Positive) |
+|------------------|-----------------------|----------------------|
+| **Actual: Ham**  | 2050 (True Negative)  | 95 (False Positive)  |
+| **Actual: Spam** | 26 (False Negative)   | 1118 (True Positive) |
 
 - True Negative (TN): 2050 messages were correctly identified as ham (non-spam).
-- False Positive (FP): 63 ham messages were incorrectly identified as spam.
-- False Negative (FN): 28 spam messages were incorrectly identified as ham.
-- True Positive (TP): 1007 messages were correctly identified as spam.
+- False Positive (FP): 95 ham messages were incorrectly identified as spam.
+- False Negative (FN): 26 spam messages were incorrectly identified as ham.
+- True Positive (TP): 1118 messages were correctly identified as spam.
 
 ##### Performance Metrics:
 
 |              | Precision | Recall | F1-Score | Support |
 |--------------|-----------|--------|----------|---------|
-| Ham          | 0.99      | 0.97   | 0.98     | 2113    |
-| Spam         | 0.94      | 0.97   | 0.96     | 1035    |
-| **Accuracy** |           |        | **0.97** | 3148    |
-| Macro Avg    | 0.96      | 0.97   | 0.97     | 3148    |
-| Weighted Avg | 0.97      | 0.97   | 0.97     | 3148    |
+| Ham          | 0.9875    | 0.9557 | 0.9713   | 2145    |
+| Spam         | 0.9217    | 0.9773 | 0.9487   | 1144    |
+| **Accuracy** |           |        | **0.9632** | 3289  |
+| Macro Avg    | 0.9546    | 0.9665 | 0.9600   | 3289    |
+| Weighted Avg | 0.9646    | 0.9632 | 0.9634   | 3289    |
 
-##### Accuracy: 0.9710927573062261
+##### Accuracy: 0.9632107023411371
 
-The models that performed the best are the SVM and Logistic Regression, with the SVM model achieving slightly higher
-accuracy than Logistic Regression.
+All five models are now evaluated on the same 3289-row held-out split (`test_size=0.2, random_state=0`) of the
+current training data. The SVM and Random Forest models perform best, with Logistic Regression and Naive Bayes
+sitting a bit lower, and XGBoost in between.
 Given that no single model achieved perfect accuracy, I have decided to implement a voting classifier.
 This classifier will combine the predictions of the five models (Naive Bayes, Random Forest, SVM,
 Logistic Regression, and XGB) using a majority vote system to make the final prediction.
@@ -247,11 +248,11 @@ greater influence on the final decision.
 
 The models and their respective proportional weights are as follows:
 
-- Naive Bayes: Weight = 0.1822
-- Random Forest: Weight = 0.2047
-- SVM (Support Vector Machine): Weight = 0.2052
-- Logistic Regression: Weight = 0.2039
-- XGBoost (XGB): Weight = 0.2039
+- Naive Bayes: Weight = 0.1983
+- Random Forest: Weight = 0.2018
+- SVM (Support Vector Machine): Weight = 0.2019
+- Logistic Regression: Weight = 0.1984
+- XGBoost (XGB): Weight = 0.1996
 
 These weights were calculated based on the accuracy of each model as a proportion of the total accuracy of all models.
 The final decision whether a message is spam or not is determined by the weighted spam score. Each model casts a vote

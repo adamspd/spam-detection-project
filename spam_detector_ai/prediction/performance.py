@@ -2,10 +2,10 @@
 
 class ModelAccuracy:
     NAIVE_BAYES = 0.9577
-    RANDOM_FOREST = 0.9750
-    SVM = 0.9774
-    LOGISTIC_REG = 0.9708
-    XGB = 0.9711
+    RANDOM_FOREST = 0.9745
+    SVM = 0.9748
+    LOGISTIC_REG = 0.9580
+    XGB = 0.9632
 
     @classmethod
     def total_accuracy(cls):

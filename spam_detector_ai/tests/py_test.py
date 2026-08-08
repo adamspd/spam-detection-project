@@ -14,6 +14,7 @@ CLASSIFIER_TYPES = [
     ClassifierType.RANDOM_FOREST,
     ClassifierType.SVM,
     ClassifierType.LOGISTIC_REGRESSION,
+    ClassifierType.XGB,
 ]
 ACCURACY_THRESHOLD = 0.85
 
@@ -54,8 +55,14 @@ class TestClassifiers:
         """The current training code must produce a model above threshold."""
         _, X_test, _, y_test = split_data
         classifier = live_models[ct]
-        vectorized = classifier.vectoriser.transform(X_test).toarray()
+        # Sparse (not dense) to match training, and decode via label_encoder when
+        # present (only XGBSpamClassifier fits on encoded numeric labels) -- see
+        # SpamDetector._predict_label for why both of these matter.
+        vectorized = classifier.vectoriser.transform(X_test)
         y_pred = classifier.classifier.predict(vectorized)
+        label_encoder = getattr(classifier, "label_encoder", None)
+        if label_encoder is not None:
+            y_pred = label_encoder.inverse_transform(y_pred)
         acc = accuracy_score(y_test, y_pred)
         assert acc > ACCURACY_THRESHOLD, \
             f"{ct.name} live-pipeline accuracy {acc:.4f} <= {ACCURACY_THRESHOLD}"

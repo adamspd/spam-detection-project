@@ -2,6 +2,45 @@
 
 All notable changes to this project are documented in this file.
 
+## [2.3.0] - 2026-08-08
+
+### Fixed
+
+- **XGBoost votes in `VotingSpamDetector` were silently always "ham", regardless of the message.**
+  This was a regression from the `_predict_label` helper introduced in 2.2.0, caused by two
+  compounding bugs:
+  1. `_predict_label` called the raw `XGBClassifier.predict()` directly. Unlike the other 4
+     classifiers (which are fit on the string labels `'ham'`/`'spam'` directly), XGBoost is fit on
+     labels encoded to `0`/`1` via a `LabelEncoder`, so its raw prediction was never decoded back
+     to a string, and `prediction == 'spam'` was always `False`.
+  2. `_predict_label` densified the vectorised message with `.toarray()` before predicting.
+     XGBoost's default handling of "missing" values differs between a sparse matrix (where an
+     implicit zero can be treated as missing) and a dense array (where every value, including
+     `0.0`, is a real one), which skewed the underlying model's own predictions once decoding was
+     fixed. The message is now kept sparse, matching how all 5 classifiers are trained.
+  - Practical impact: XGBoost's ~20% share of the weighted vote never actually contributed a
+    "spam" vote in any deployed 2.2.0 installs. `VotingSpamDetector` still worked, but leaned
+    more heavily on the other 4 classifiers than the documented weights implied.
+- `spam_detector_ai/tests/py_test.py` previously excluded `XGB` from its parametrised accuracy
+  tests, which is why this shipped undetected. `ClassifierType.XGB` has been added to the test
+  matrix (both the live-training and committed-model accuracy tests) so this class of regression
+  is caught in CI going forward.
+
+### Changed
+
+- All 5 models were retrained on the current dependency stack and the current `spam.csv` dataset;
+  accuracy numbers in the README and `ModelAccuracy` (`prediction/performance.py`) — and therefore
+  the normalised voting weights — were refreshed to match.
+- Updated pinned dev/test dependencies in `requirements.txt` to their latest available releases:
+  `numpy` (2.5.1), `xgboost` (3.4.0), `nltk` (3.10.2), `joblib` (1.5.3).
+- `setup.cfg`: `python_requires` raised from `>=3.8` to `>=3.11` and the Python trove classifiers
+  updated to 3.11-3.14. `scikit-learn>=1.7.0` (the floor `install_requires` already declared) only
+  ships wheels for Python >=3.11, so anything below that was already unable to install the
+  package's actual dependencies; the metadata now reflects that. The `pandas` upper bound was
+  raised from `<3.0.0` to `<4.0.0` to allow pandas 3.x.
+- CI (`.github/workflows/tests.yml`) now runs the test suite on a matrix of Python 3.11, 3.12,
+  3.13, and 3.14 instead of only 3.13.
+
 ## [2.2.0] - 2026-08-08
 
 ### Added
