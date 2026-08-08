@@ -1,11 +1,16 @@
 scikit-learn==1.9.0
 imbalanced-learn==0.14.2
 pandas==3.0.5
-nltk==3.10.0
+nltk==3.10.2
 setuptools==83.0.0
 pytest==9.1.1
 requests~=2.34.2
 imblearn~=0.0
-joblib~=1.5.2
-xgboost==3.3.0
-numpy==2.5.1
+joblib~=1.5.3
+xgboost==3.4.0
+# numpy 2.5.x is pinned out: joblib's numpy pickler still uses the
+# array.shape-assignment path numpy 2.5 deprecated (joblib/joblib#1772), and it
+# silently corrupts ComplementNB's saved arrays on cross-process load instead
+# of just warning. The joblib fix (joblib/joblib#1777) targets joblib 1.6.0,
+# not yet released. Revisit once that ships.
+numpy==2.4.6

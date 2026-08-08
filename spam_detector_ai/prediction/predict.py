@@ -126,9 +126,24 @@ class SpamDetector:
         self.processor = Preprocessor()
 
     def _predict_label(self, processed_message):
-        """Vectorise already-preprocessed text and return the raw model label ('spam' or 'ham')."""
-        vectorized_message = self.model.vectoriser.transform([processed_message]).toarray()
+        """Vectorise already-preprocessed text and return the raw model label ('spam' or 'ham').
+
+        Most classifiers are fit directly on string labels, so classifier.predict()
+        already returns 'spam'/'ham'. XGBSpamClassifier is the exception: it fits on a
+        LabelEncoder-encoded target, so its raw prediction is a numeric label that must
+        be decoded back through that same encoder before it can be compared to 'spam'.
+
+        The vectorised message is kept sparse (no ``.toarray()``): all 5 underlying
+        classifiers are trained on the sparse TF-IDF matrix, and XGBoost in particular
+        treats an explicit 0.0 in a *dense* array differently from an implicit zero in
+        a *sparse* one (it can be read as a missing value), which silently skewed its
+        predictions towards one class when this was densified.
+        """
+        vectorized_message = self.model.vectoriser.transform([processed_message])
         prediction = self.model.classifier.predict(vectorized_message)
+        label_encoder = getattr(self.model, "label_encoder", None)
+        if label_encoder is not None:
+            prediction = label_encoder.inverse_transform(prediction)
         return prediction[0]
 
     def is_spam(self, message_, preprocessed=False):
