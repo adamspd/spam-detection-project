@@ -5,7 +5,6 @@ nltk==3.10.2
 setuptools==83.0.0
 pytest==9.1.1
 requests~=2.34.2
-imblearn~=0.0
 joblib~=1.5.3
 xgboost==3.4.0
 # numpy 2.5.x is pinned out: joblib's numpy pickler still uses the
