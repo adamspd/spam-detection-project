@@ -2,7 +2,7 @@ scikit-learn==1.9.0
 imbalanced-learn==0.14.2
 pandas==3.0.5
 nltk==3.10.2
-setuptools==83.0.0
+setuptools==84.0.0
 pytest==9.1.1
 requests~=2.34.2
 joblib~=1.5.3
