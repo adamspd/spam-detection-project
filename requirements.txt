@@ -5,7 +5,7 @@ nltk==3.10.2
 setuptools==83.0.0
 pytest==9.1.1
 requests~=2.34.2
-joblib~=1.5.3
+joblib~=1.6.0
 xgboost==3.4.0
 # numpy 2.5.x is pinned out: joblib's numpy pickler still uses the
 # array.shape-assignment path numpy 2.5 deprecated (joblib/joblib#1772), and it
