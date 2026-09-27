@@ -12,4 +12,4 @@ xgboost==3.4.0
 # silently corrupts ComplementNB's saved arrays on cross-process load instead
 # of just warning. The joblib fix (joblib/joblib#1777) targets joblib 1.6.0,
 # not yet released. Revisit once that ships.
-numpy==2.4.6
+numpy==2.5.2
