@@ -49,8 +49,10 @@ jobs:
         python -m unittest spam_detector_ai.tests.test_preprocessor
 
   # Merge Dependabot patch and minor updates once the tests pass.
-  # Major updates stay open for a manual review. numpy is pinned on
-  # purpose (see requirements.txt), so its updates are left for review too.
+  # Major updates stay open for a manual review, except setuptools.
+  # setuptools bumps its major version often and is only a build tool.
+  # numpy is pinned on purpose (see requirements.txt), so its updates are
+  # left for review too.
   automerge:
     needs: build
     if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
@@ -61,7 +63,7 @@ jobs:
     steps:
       - id: meta
         uses: dependabot/fetch-metadata@v3
-      - if: steps.meta.outputs.update-type != 'version-update:semver-major' && !contains(steps.meta.outputs.dependency-names, 'numpy')
+      - if: (steps.meta.outputs.update-type != 'version-update:semver-major' || steps.meta.outputs.dependency-names == 'setuptools') && !contains(steps.meta.outputs.dependency-names, 'numpy')
         run: gh pr merge --squash "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
