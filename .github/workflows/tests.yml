@@ -20,7 +20,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11", "3.12", "3.13", "3.14"]
+        # xgboost 3.3+ requires Python 3.12 or newer.
+        python-version: ["3.12", "3.13", "3.14"]
 
     steps:
     - uses: actions/checkout@v7
@@ -47,3 +48,21 @@ jobs:
         python -m unittest spam_detector_ai.tests.test_dataloader
         python -m unittest spam_detector_ai.tests.test_preprocessor
 
+  # Merge Dependabot patch and minor updates once the tests pass.
+  # Major updates stay open for a manual review. numpy is pinned on
+  # purpose (see requirements.txt), so its updates are left for review too.
+  automerge:
+    needs: build
+    if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - id: meta
+        uses: dependabot/fetch-metadata@v3
+      - if: steps.meta.outputs.update-type != 'version-update:semver-major' && !contains(steps.meta.outputs.dependency-names, 'numpy')
+        run: gh pr merge --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
